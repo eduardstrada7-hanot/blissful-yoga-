@@ -45,11 +45,11 @@ import { site } from '../data/site';
     <!-- Book CTA + Member login + Mobile Toggle -->
     <div style="display:flex;align-items:center;gap:0.75rem;">
 
-      <!-- Shown when logged OUT -->
-      <a href="/packages" data-ms-content="!members" style="font-size:0.875rem;font-weight:600;color:var(--color-plum);white-space:nowrap;display:none;" aria-label="View membership plans">Join</a>
-      <button data-ms-action="login" data-ms-content="!members" style="font-size:0.875rem;font-weight:500;color:var(--color-ink);background:none;border:none;cursor:pointer;font-family:var(--font-body);padding:0;display:none;white-space:nowrap;" aria-label="Log in to your account">Log in</button>
+      <!-- Shown when logged OUT (Memberstack hides these once logged in) -->
+      <a href="/packages" data-ms-content="!members" style="font-size:0.875rem;font-weight:600;color:var(--color-plum);white-space:nowrap;" aria-label="View membership plans">Join</a>
+      <button data-ms-action="login" data-ms-content="!members" style="font-size:0.875rem;font-weight:500;color:var(--color-ink);background:none;border:none;cursor:pointer;font-family:var(--font-body);padding:0;white-space:nowrap;" aria-label="Log in to your account">Log in</button>
 
-      <!-- Shown when logged IN -->
+      <!-- Shown when logged IN (Memberstack hides these when logged out) -->
       <a href="/members" data-ms-content="members" style="font-size:0.875rem;font-weight:600;color:var(--color-plum);white-space:nowrap;display:none;" aria-label="Go to members area">My Classes</a>
       <button data-ms-action="logout" data-ms-content="members" style="font-size:0.875rem;font-weight:500;color:var(--color-ink);background:none;border:none;cursor:pointer;font-family:var(--font-body);padding:0;display:none;white-space:nowrap;" aria-label="Log out">Log out</button>
 
@@ -91,6 +91,8 @@ import { site } from '../data/site';
       )
     ))}
     <a href="/contact" style="display:block;padding:0.6rem 0;font-weight:600;color:var(--color-plum);font-size:1rem;border-bottom:1px solid var(--color-line);">Contact</a>
+    <a href="/packages" style="display:block;padding:0.6rem 0;font-weight:600;color:var(--color-plum);font-size:1rem;border-bottom:1px solid var(--color-line);">Join / Membership</a>
+    <a href="/members" style="display:block;padding:0.6rem 0;font-weight:600;color:var(--color-plum);font-size:1rem;border-bottom:1px solid var(--color-line);">Members Portal</a>
     <div style="margin-top:1.5rem;">
       <a href="/book/discovery-call" class="btn-rose" style="width:100%;justify-content:center;">Book a Free Discovery Call</a>
     </div>

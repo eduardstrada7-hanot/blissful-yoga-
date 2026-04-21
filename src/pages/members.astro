@@ -152,8 +152,8 @@ import Base from '../layouts/Base.astro';
 
   </div><!-- end data-ms-content="members" -->
 
-  <!-- Shown only to logged-OUT visitors -->
-  <div data-ms-content="!members">
+  <!-- Shown to logged-OUT visitors (no display:none — visible by default until Memberstack loads) -->
+  <div id="members-login-prompt">
     <section style="padding:120px 0;background:var(--color-sand);text-align:center;">
       <div class="container" style="max-width:520px;">
         <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true" style="margin:0 auto 1.5rem;">
