@@ -42,8 +42,17 @@ import { site } from '../data/site';
       ))}
     </nav>
 
-    <!-- Book CTA + Mobile Toggle -->
-    <div style="display:flex;align-items:center;gap:1rem;">
+    <!-- Book CTA + Member login + Mobile Toggle -->
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+
+      <!-- Shown when logged OUT -->
+      <a href="/packages" data-ms-content="!members" style="font-size:0.875rem;font-weight:600;color:var(--color-plum);white-space:nowrap;display:none;" aria-label="View membership plans">Join</a>
+      <button data-ms-action="login" data-ms-content="!members" style="font-size:0.875rem;font-weight:500;color:var(--color-ink);background:none;border:none;cursor:pointer;font-family:var(--font-body);padding:0;display:none;white-space:nowrap;" aria-label="Log in to your account">Log in</button>
+
+      <!-- Shown when logged IN -->
+      <a href="/members" data-ms-content="members" style="font-size:0.875rem;font-weight:600;color:var(--color-plum);white-space:nowrap;display:none;" aria-label="Go to members area">My Classes</a>
+      <button data-ms-action="logout" data-ms-content="members" style="font-size:0.875rem;font-weight:500;color:var(--color-ink);background:none;border:none;cursor:pointer;font-family:var(--font-body);padding:0;display:none;white-space:nowrap;" aria-label="Log out">Log out</button>
+
       <a href="/book/discovery-call" class="btn-primary" style="white-space:nowrap;" aria-label="Book a free Discovery Call with Veronica">Book a Free Call</a>
       <button id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer" class="mobile-only" style="background:none;border:none;cursor:pointer;padding:0.5rem;color:var(--color-plum);">
         <svg id="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
