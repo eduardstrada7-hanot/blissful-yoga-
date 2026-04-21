@@ -1,0 +1,138 @@
+---
+import Base from '../../layouts/Base.astro';
+import FAQ from '../../components/FAQ.astro';
+
+const faqs = [
+  {
+    q: "Do I need to know how to dance?",
+    a: "Absolutely not. Ecstatic Dance has no steps, no choreography, and no right or wrong moves. If your body can move in any way — swaying, lying on the floor, jumping, stretching — you belong here.",
+  },
+  {
+    q: "Can I come alone?",
+    a: "Yes, and many people do. The space is welcoming and non-judgmental. You'll be in community, but you dance your own dance.",
+  },
+  {
+    q: "Is there talking during the dance?",
+    a: "The dance floor is a silent space — no talking, no phones, no alcohol. This helps everyone drop into their own experience without social performance. There is time for connection before and after.",
+  },
+  {
+    q: "What should I wear?",
+    a: "Comfortable clothing you can move freely in. Bare feet or socks are typical — shoes are usually removed at the door.",
+  },
+  {
+    q: "How long does it last?",
+    a: "A typical Ecstatic Dance with Veronica runs 90 minutes to 2 hours, including an opening circle, the dance journey, and a closing.",
+  },
+  {
+    q: "Is this online or in person?",
+    a: "Veronica facilitates both. Online events via Zoom allow you to dance in your own space. In-person events are announced separately. Join the email list to stay informed.",
+  },
+];
+---
+
+<Base
+  title="Ecstatic Dance — Facilitated by Veronica Carpenter"
+  description="Ecstatic Dance facilitated by Veronica Carpenter. A free-form movement journey guided by music — no steps, no performance, no judgment. Just your body moving exactly as it wants to."
+>
+  <!-- Hero -->
+  <section style="background:var(--color-ink);padding:80px 0;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;opacity:0.12;background:radial-gradient(circle at 20% 60%, var(--color-plum) 0%, transparent 55%), radial-gradient(circle at 80% 30%, var(--color-rose) 0%, transparent 50%), radial-gradient(circle at 55% 80%, var(--color-gold) 0%, transparent 40%);"></div>
+    <div class="container" style="position:relative;z-index:1;max-width:760px;">
+      <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-gold);margin-bottom:0.5rem;" class="fade-in">Free-form movement</p>
+      <h1 style="font-size:clamp(2.4rem,6vw,3.5rem);color:var(--color-cream);margin-bottom:1.25rem;line-height:1.1;" class="fade-in">Ecstatic Dance</h1>
+      <p style="font-size:clamp(1rem,2.2vw,1.2rem);color:var(--color-cream);opacity:0.85;max-width:580px;line-height:1.7;margin-bottom:2rem;" class="fade-in">
+        No steps. No choreography. No performance. Just you, the music, and your body moving exactly as it wants to — guided through a full journey from stillness to ecstasy and back to rest.
+      </p>
+      <a href="/contact" class="btn-rose" style="font-size:1rem;padding:0.875rem 2rem;" class="fade-in">
+        Join the next dance →
+      </a>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- What it is -->
+  <section class="section-pad" aria-labelledby="what-ed-heading">
+    <div class="container" style="max-width:800px;">
+      <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-rose);margin-bottom:0.5rem;" class="fade-in">The practice</p>
+      <h2 id="what-ed-heading" style="font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:1.25rem;" class="fade-in">What is Ecstatic Dance?</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
+        <div class="fade-in">
+          <p style="font-size:1rem;line-height:1.8;color:var(--color-ink);margin-bottom:1rem;">
+            Ecstatic Dance is a free-form, conscious movement practice guided entirely by music. There are no steps to follow, no instructor demonstrating moves at the front of the room. The music leads. Your body responds.
+          </p>
+          <p style="font-size:1rem;line-height:1.8;color:var(--color-ink);">
+            Veronica curates a full musical arc — beginning with slow, grounding sounds that invite you inward, building through rhythms that might have you jumping, spinning, or lying on the floor, and landing in stillness and integration at the end. Every journey is different.
+          </p>
+        </div>
+        <div class="fade-in" style="display:flex;flex-direction:column;gap:0.875rem;">
+          {[
+            { title: "Opening", desc: "Slow music. Arrival. Breath. Letting the day fall away." },
+            { title: "Warm-up", desc: "Gentle rhythms. The body beginning to wake and explore." },
+            { title: "Peak", desc: "Full expression. Whatever the body wants — wild, tender, fierce, or still." },
+            { title: "Integration", desc: "The music softens. The body finds its way to rest." },
+            { title: "Closing circle", desc: "Brief sharing (optional). Returning to words and community." },
+          ].map(({ title, desc }) => (
+            <div style="padding:0.875rem;background:var(--color-sand);border-radius:4px;border-left:3px solid var(--color-gold);">
+              <p style="font-weight:700;color:var(--color-plum);margin:0 0 0.2rem;font-size:0.9rem;">{title}</p>
+              <p style="font-size:0.85rem;color:var(--color-ink);opacity:0.7;margin:0;line-height:1.5;">{desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- Why dance -->
+  <section class="section-pad" style="background:var(--color-sand);" aria-labelledby="why-heading">
+    <div class="container" style="max-width:800px;">
+      <h2 id="why-heading" style="font-size:clamp(1.8rem,3.5vw,2.4rem);margin-bottom:1.5rem;" class="fade-in">Why move this way?</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;" class="fade-in">
+        {[
+          { title: "Release without words", desc: "Some things can't be talked through. The body knows how to let go when we give it permission." },
+          { title: "Community without performance", desc: "You are surrounded by others doing the same thing — but nobody is watching you. Everyone is inside their own experience." },
+          { title: "Joy as medicine", desc: "We forget that pleasure and play are healing. Ecstatic Dance makes no apology for feeling good." },
+          { title: "No experience needed", desc: "If your body can breathe and move in any way, you can dance. That's the only requirement." },
+        ].map(({ title, desc }) => (
+          <div style="padding:1.5rem;background:var(--color-cream);border:1px solid var(--color-line);border-radius:4px;">
+            <h3 style="font-size:1.05rem;margin:0 0 0.5rem;">{title}</h3>
+            <p style="font-size:0.875rem;line-height:1.65;color:var(--color-ink);opacity:0.75;margin:0;">{desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- CTA -->
+  <section class="section-pad">
+    <div class="container" style="max-width:680px;text-align:center;">
+      <div class="fade-in" style="padding:3rem;background:var(--color-ink);border-radius:4px;color:var(--color-cream);position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;opacity:0.08;background:radial-gradient(circle at 30% 50%, var(--color-gold) 0%, transparent 60%);"></div>
+        <div style="position:relative;z-index:1;">
+          <h2 style="color:var(--color-cream);font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:0.75rem;">Come dance.</h2>
+          <p style="opacity:0.85;line-height:1.7;margin-bottom:1.75rem;">Join the email list to be the first to know about upcoming Ecstatic Dance events — or reach out to Veronica to ask about private or group facilitation.</p>
+          <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:0.875rem;">
+            <a href="/free" class="btn-rose" style="font-size:1rem;">Join the email list</a>
+            <a href="/contact" class="btn-outline" style="font-size:1rem;">Contact Veronica</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <FAQ items={faqs} heading="Questions about Ecstatic Dance" />
+
+  <style>
+    @media (max-width: 768px) {
+      section[aria-labelledby="what-ed-heading"] .container > div[style*="grid-template-columns:1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+</Base>

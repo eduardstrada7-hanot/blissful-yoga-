@@ -27,6 +27,8 @@ export const site = {
         { label: "Soulhood Circles", href: "/offerings/soulhood" },
         { label: "Bad Romance Recovery", href: "/offerings/bad-romance" },
         { label: "Mindful Child Support", href: "/offerings/children" },
+        { label: "Inner Child Yoga", href: "/offerings/inner-child" },
+        { label: "Ecstatic Dance", href: "/offerings/ecstatic-dance" },
         { label: "Special Events", href: "/offerings/events" },
       ],
     },
