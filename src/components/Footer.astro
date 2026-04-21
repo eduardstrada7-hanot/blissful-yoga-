@@ -1,0 +1,93 @@
+---
+import { site } from '../data/site';
+---
+
+<footer style="background:var(--color-plum);color:var(--color-cream);padding:64px 0 0;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:3rem;padding-bottom:48px;">
+
+      <!-- Brand -->
+      <div>
+        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <ellipse cx="10" cy="14" rx="8" ry="5" fill="var(--color-cream)" opacity="0.85" transform="rotate(-20 10 14)"/>
+            <ellipse cx="22" cy="14" rx="8" ry="5" fill="var(--color-cream)" opacity="0.85" transform="rotate(20 22 14)"/>
+            <ellipse cx="9" cy="20" rx="6" ry="4" fill="var(--color-rose)" opacity="0.7" transform="rotate(-30 9 20)"/>
+            <ellipse cx="23" cy="20" rx="6" ry="4" fill="var(--color-rose)" opacity="0.7" transform="rotate(30 23 20)"/>
+            <line x1="16" y1="8" x2="16" y2="26" stroke="var(--color-cream)" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="14" y1="9" x2="12" y2="7" stroke="var(--color-cream)" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="18" y1="9" x2="20" y2="7" stroke="var(--color-cream)" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+          <span style="font-family:var(--font-display);font-size:1.05rem;font-weight:700;color:var(--color-cream);">Blissful Butterfly Yoga</span>
+        </div>
+        <p style="font-size:0.875rem;opacity:0.8;line-height:1.6;max-width:220px;">{site.tagline}</p>
+        <a href={`mailto:${site.teacher.email}`} style="display:block;margin-top:0.75rem;font-size:0.85rem;opacity:0.75;word-break:break-all;">{site.teacher.email}</a>
+      </div>
+
+      <!-- Offerings -->
+      <div>
+        <h3 style="font-family:var(--font-body);font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.6;margin-bottom:1rem;color:var(--color-cream);">Offerings</h3>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;">
+          <li><a href="/offerings/classes" style="font-size:0.9rem;opacity:0.85;transition:opacity 150ms ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">Livestream Classes</a></li>
+          <li><a href="/offerings/yoga-therapy" style="font-size:0.9rem;opacity:0.85;transition:opacity 150ms ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">Yoga Therapy</a></li>
+          <li><a href="/offerings/soulhood" style="font-size:0.9rem;opacity:0.85;transition:opacity 150ms ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">Soulhood Circles</a></li>
+          <li><a href="/offerings/bad-romance" style="font-size:0.9rem;opacity:0.85;transition:opacity 150ms ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">Bad Romance Recovery</a></li>
+          <li><a href="/offerings/children" style="font-size:0.9rem;opacity:0.85;transition:opacity 150ms ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">Mindful Child Support</a></li>
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div>
+        <h3 style="font-family:var(--font-body);font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.6;margin-bottom:1rem;color:var(--color-cream);">Resources</h3>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;">
+          <li><a href="/on-demand" style="font-size:0.9rem;opacity:0.85;transition:opacity 150ms ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">Yoga On Demand</a></li>
+          <li><a href="/free" style="font-size:0.9rem;opacity:0.85;transition:opacity 150ms ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">Free Videos & Mini-Course</a></li>
+          <li><a href="/testimonials" style="font-size:0.9rem;opacity:0.85;transition:opacity 150ms ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">Testimonials</a></li>
+          <li><a href="/about" style="font-size:0.9rem;opacity:0.85;transition:opacity 150ms ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">About Veronica</a></li>
+          <li><a href="/contact" style="font-size:0.9rem;opacity:0.85;transition:opacity 150ms ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Stay in touch -->
+      <div>
+        <h3 style="font-family:var(--font-body);font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.6;margin-bottom:1rem;color:var(--color-cream);">Stay in Touch</h3>
+        <form action="#" method="post" style="display:flex;flex-direction:column;gap:0.5rem;" aria-label="Footer email signup">
+          <label for="footer-email" style="font-size:0.85rem;opacity:0.8;">Get the free Root Chakra mini-course:</label>
+          <input type="email" id="footer-email" name="email" placeholder="your@email.com" required style="padding:0.5rem 0.75rem;border-radius:4px;border:1px solid rgba(245,239,230,0.3);background:rgba(245,239,230,0.1);color:var(--color-cream);font-size:0.875rem;font-family:var(--font-body);" />
+          <input type="text" name="website" tabindex="-1" aria-hidden="true" style="display:none;" />
+          <button type="submit" style="padding:0.5rem 0.75rem;border-radius:4px;background:var(--color-rose);color:#fff;border:none;font-weight:600;font-size:0.875rem;cursor:pointer;font-family:var(--font-body);transition:background 150ms ease;" onmouseover="this.style.background='var(--color-rose-dark)'" onmouseout="this.style.background='var(--color-rose)'">Send me the mini-course</button>
+        </form>
+        <!-- Social icons -->
+        <div style="display:flex;gap:0.75rem;margin-top:1.25rem;flex-wrap:wrap;">
+          <a href={site.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Blissful Butterfly Yoga on Facebook" style="opacity:0.75;transition:opacity 150ms ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.75'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href={site.social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Blissful Butterfly Yoga on Instagram" style="opacity:0.75;transition:opacity 150ms ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.75'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href={site.social.youtube} target="_blank" rel="noopener noreferrer" aria-label="Blissful Butterfly Yoga on YouTube" style="opacity:0.75;transition:opacity 150ms ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.75'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="var(--color-plum)"/></svg>
+          </a>
+          <a href={site.social.tiktok} target="_blank" rel="noopener noreferrer" aria-label="Blissful Butterfly Yoga on TikTok" style="opacity:0.75;transition:opacity 150ms ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.75'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.17 8.17 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/></svg>
+          </a>
+          <a href={site.social.spotify} target="_blank" rel="noopener noreferrer" aria-label="Blissful Butterfly Yoga on Spotify" style="opacity:0.75;transition:opacity 150ms ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.75'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 13.5a5.5 5.5 0 0 1 8 0M7 10.5a8.5 8.5 0 0 1 10 0M9 16.5a3 3 0 0 1 6 0" stroke="var(--color-plum)" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid rgba(245,239,230,0.15);padding:1.25rem 1.5rem;text-align:center;font-size:0.8125rem;opacity:0.6;">
+    <span>© <span id="footer-year"></span> Blissful Butterfly Yoga</span>
+    <span style="margin:0 0.75rem;">·</span>
+    <a href="/privacy" style="opacity:0.85;">Privacy</a>
+    <span style="margin:0 0.75rem;">·</span>
+    <a href="/terms" style="opacity:0.85;">Terms</a>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('footer-year')!.textContent = String(new Date().getFullYear());
+</script>

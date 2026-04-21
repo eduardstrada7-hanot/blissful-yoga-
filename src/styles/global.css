@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter+Tight:wght@400;500;600&family=Caveat:wght@400;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #F5EFE6;
+  --color-sand: #E8DFD0;
+  --color-ink: #2B2420;
+  --color-plum: #5B3A5B;
+  --color-plum-dark: #3e2840;
+  --color-rose: #C08478;
+  --color-rose-dark: #a86b5e;
+  --color-sage: #7A8A6B;
+  --color-gold: #C9A34E;
+  --color-line: #D9CDB8;
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter Tight', system-ui, sans-serif;
+  --font-hand: 'Caveat', cursive;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--color-ink);
+  background-color: var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: 1.2;
+  color: var(--color-plum);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-plum);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-plum);
+  color: var(--color-cream);
+  font-weight: 600;
+  border-radius: 0 0 4px 4px;
+  z-index: 9999;
+  transition: top 0.15s;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+.section-pad {
+  padding-top: 96px;
+  padding-bottom: 96px;
+}
+@media (max-width: 768px) {
+  .section-pad {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.reading-col {
+  max-width: 640px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.75rem;
+  background-color: var(--color-plum);
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 2px solid var(--color-plum);
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  background-color: var(--color-plum-dark);
+  border-color: var(--color-plum-dark);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.75rem;
+  background-color: transparent;
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 2px solid var(--color-cream);
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+  text-decoration: none;
+}
+.btn-outline:hover {
+  background-color: var(--color-cream);
+  color: var(--color-plum);
+}
+
+.btn-rose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.75rem;
+  background-color: var(--color-rose);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 2px solid var(--color-rose);
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease;
+  text-decoration: none;
+}
+.btn-rose:hover {
+  background-color: var(--color-rose-dark);
+  border-color: var(--color-rose-dark);
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--color-line);
+  margin: 0;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes heroReveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-h1 {
+  animation: heroReveal 0.7s ease both;
+  animation-delay: 0ms;
+}
+.hero-sub {
+  animation: heroReveal 0.7s ease both;
+  animation-delay: 120ms;
+}
+.hero-ctas {
+  animation: heroReveal 0.7s ease both;
+  animation-delay: 240ms;
+}
+.hero-trust {
+  animation: heroReveal 0.7s ease both;
+  animation-delay: 360ms;
+}
+
+.card-img {
+  border-radius: 16px;
+  overflow: hidden;
+}

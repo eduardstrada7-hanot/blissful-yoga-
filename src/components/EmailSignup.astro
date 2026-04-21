@@ -1,0 +1,57 @@
+---
+interface Props {
+  bg?: string;
+}
+const { bg = 'var(--color-sand)' } = Astro.props;
+---
+
+<section style={`background:${bg};padding:80px 0;`} aria-labelledby="email-signup-heading">
+  <div class="container" style="max-width:640px;text-align:center;">
+    <p style="font-size:0.8rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-sage);margin-bottom:0.5rem;" class="fade-in">Free for you</p>
+    <h2 id="email-signup-heading" style="font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:1rem;" class="fade-in">Start with something free.</h2>
+    <p style="font-size:1rem;color:var(--color-ink);opacity:0.75;margin-bottom:2rem;line-height:1.7;" class="fade-in">The Root Chakra Mini-Course — 5 short practices to ground yourself when life feels unsteady. Free, and always will be.</p>
+
+    <form id="email-signup-form" action="#" method="post" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;" class="fade-in" novalidate aria-label="Free mini-course signup">
+      <!-- Honeypot -->
+      <input type="text" name="website" tabindex="-1" aria-hidden="true" style="position:absolute;opacity:0;pointer-events:none;width:0;height:0;" autocomplete="off" />
+
+      <div style="display:flex;gap:0.5rem;width:100%;max-width:440px;flex-wrap:wrap;">
+        <label for="signup-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Email address</label>
+        <input
+          type="email"
+          id="signup-email"
+          name="email"
+          placeholder="your@email.com"
+          required
+          autocomplete="email"
+          style="flex:1;min-width:200px;padding:0.75rem 1rem;border:1px solid var(--color-line);border-radius:4px;font-size:1rem;font-family:var(--font-body);background:var(--color-cream);color:var(--color-ink);"
+          aria-describedby="signup-error"
+        />
+        <button type="submit" class="btn-primary" style="white-space:nowrap;">Send me the mini-course</button>
+      </div>
+      <p id="signup-error" role="alert" aria-live="polite" style="color:#c0392b;font-size:0.85rem;display:none;"></p>
+      <p id="signup-success" role="status" aria-live="polite" style="color:var(--color-sage);font-weight:600;font-size:0.95rem;display:none;">You're in! Check your inbox.</p>
+      <p style="font-size:0.8rem;color:var(--color-ink);opacity:0.5;font-style:italic;">No spam. Unsubscribe anytime.</p>
+    </form>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('email-signup-form') as HTMLFormElement;
+  const errorEl = document.getElementById('signup-error') as HTMLElement;
+  const successEl = document.getElementById('signup-success') as HTMLElement;
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = (form.querySelector('#signup-email') as HTMLInputElement).value;
+    if (!email || !email.includes('@')) {
+      errorEl.style.display = 'block';
+      errorEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    errorEl.style.display = 'none';
+    // Wire up to ConvertKit/Mailchimp here
+    successEl.style.display = 'block';
+    (form.querySelector('#signup-email') as HTMLInputElement).value = '';
+  });
+</script>

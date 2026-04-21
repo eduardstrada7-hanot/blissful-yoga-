@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "wild-indigo-evening",
+    "name": "Wild Indigo Evening",
+    "image": "/images/classes/wild-indigo.jpg",
+    "style": "Wild Card — varies weekly",
+    "length": 60,
+    "price": 15,
+    "level": "All levels, beginner friendly",
+    "description": "An evolving evening practice that meets the energy of the group.",
+    "day": "Monday",
+    "time": "7:00 PM ET"
+  },
+  {
+    "slug": "clouded-yellow-morning",
+    "name": "Clouded Yellow Morning",
+    "image": "/images/classes/clouded-yellow.png",
+    "style": "Vin Yin",
+    "length": 75,
+    "price": 15,
+    "level": "All levels, beginner friendly",
+    "description": "Vinyasa warmth followed by long Yin holds for a balanced practice.",
+    "day": "Tuesday",
+    "time": "9:00 AM ET"
+  },
+  {
+    "slug": "sleepy-orange-evening",
+    "name": "Sleepy Orange Evening",
+    "image": "/images/classes/sleepy-orange.png",
+    "style": "Gentle",
+    "length": 60,
+    "price": 15,
+    "level": "All levels, beginner friendly",
+    "description": "A slow, soft practice to unwind the day and ease into rest.",
+    "day": "Wednesday",
+    "time": "7:00 PM ET"
+  },
+  {
+    "slug": "purple-spotted-morning",
+    "name": "Purple Spotted Morning",
+    "image": "/images/classes/purple-spotted.png",
+    "style": "Targeted gentle movement + guided relaxation",
+    "length": 60,
+    "price": 15,
+    "level": "All levels, beginner friendly",
+    "description": "Focused mobility work followed by a long, restorative rest.",
+    "day": "Thursday",
+    "time": "9:00 AM ET"
+  },
+  {
+    "slug": "silvery-blue-morning",
+    "name": "Silvery Blue Morning",
+    "image": "/images/classes/silvery-blue.jpg",
+    "style": "Yin",
+    "length": 45,
+    "price": 15,
+    "level": "All levels, beginner friendly",
+    "description": "A short, stilling Yin practice to open the week with ease.",
+    "day": "Friday",
+    "time": "8:00 AM ET"
+  }
+]

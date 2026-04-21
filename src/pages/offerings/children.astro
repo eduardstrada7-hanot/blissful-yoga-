@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  title="Mindful Child Support — Yoga & Mindfulness for Children"
+  description="Mindful Child Support with Veronica Carpenter — yoga and mindfulness tools designed to help children regulate their emotions, build resilience, and feel safe in their bodies."
+>
+  <section style="padding:80px 0;background:var(--color-sand);">
+    <div class="container" style="max-width:760px;">
+      <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-sage);margin-bottom:0.5rem;" class="fade-in">For kids & families</p>
+      <h1 style="font-size:clamp(2.2rem,5vw,3rem);margin-bottom:1rem;" class="fade-in">Mindful Child Support</h1>
+      <p style="font-size:1.1rem;line-height:1.75;color:var(--color-ink);opacity:0.8;max-width:580px;margin-bottom:2.5rem;" class="fade-in">
+        Age-appropriate yoga, breathwork, and mindfulness to help children navigate big feelings, build focus, and feel at home in their bodies.
+      </p>
+
+      <div style="display:flex;flex-direction:column;gap:1.5rem;margin-bottom:3rem;">
+        {[
+          { label: "What it is", body: "Gentle, playful sessions adapted for children that build body awareness, emotional regulation, and a sense of inner safety. Veronica works with children individually and in small groups." },
+          { label: "Who it's for", body: "Children ages 5–14 who struggle with anxiety, focus, sensory processing, or emotional overwhelm. Parents who want to support their child's wellbeing with evidence-informed, gentle tools." },
+          { label: "What's included", body: "Private or small-group sessions via Zoom, age-appropriate practices and games, and simple take-home tools for families to use between sessions." },
+          { label: "Pricing & booking", body: "Session pricing and availability are available by inquiry. Reach out to Veronica to discuss whether this is a good fit for your child." },
+        ].map(({ label, body }) => (
+          <div class="fade-in" style="padding:1.5rem;background:var(--color-cream);border:1px solid var(--color-line);border-radius:4px;">
+            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-sage);margin:0 0 0.5rem;">{label}</p>
+            <p style="font-size:0.95rem;line-height:1.7;color:var(--color-ink);margin:0;">{body}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="fade-in" style="padding:2.5rem;background:var(--color-plum);border-radius:4px;color:var(--color-cream);text-align:center;">
+        <h2 style="color:var(--color-cream);margin-bottom:0.75rem;">Ask about your child</h2>
+        <p style="opacity:0.85;margin-bottom:1.5rem;">Veronica will be happy to chat and help you decide if this program is a fit.</p>
+        <a href={`mailto:veronica@blissfulbutterflyyoga.com?subject=Mindful Child Support Inquiry`} class="btn-outline">Email Veronica →</a>
+      </div>
+    </div>
+  </section>
+</Base>

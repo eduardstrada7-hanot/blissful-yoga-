@@ -1,0 +1,63 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+function readTime(body: string) {
+  const words = body.split(/\s+/).length;
+  return Math.max(1, Math.round(words / 200));
+}
+---
+
+<Base
+  title="Blog — Yoga, Healing & Real Talk with Veronica Carpenter"
+  description="Essays and reflections from Veronica Carpenter on yoga, healing, grief, body acceptance, trauma recovery, and the real practice of being human."
+>
+  <section style="padding:80px 0;background:var(--color-sand);">
+    <div class="container" style="max-width:900px;">
+      <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-rose);margin-bottom:0.5rem;" class="fade-in">Reflections & essays</p>
+      <h1 style="font-size:clamp(2.2rem,5vw,3rem);margin-bottom:3rem;" class="fade-in">From the blog</h1>
+
+      <div style="display:flex;flex-direction:column;gap:2.5rem;">
+        {allPosts.map((post) => (
+          <article class="fade-in" style="display:grid;grid-template-columns:1fr;gap:1.5rem;padding-bottom:2.5rem;border-bottom:1px solid var(--color-line);">
+            <div style="display:flex;flex-direction:column;gap:0.75rem;">
+              <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.8rem;color:var(--color-ink);opacity:0.55;">
+                <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+                <span>·</span>
+                <span>{readTime(post.body ?? '')} min read</span>
+                {post.data.tags.slice(0,2).map(tag => (
+                  <span style="padding:0.15rem 0.5rem;background:var(--color-line);border-radius:2px;font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">{tag}</span>
+                ))}
+              </div>
+              <h2 style="font-size:clamp(1.4rem,3vw,1.9rem);margin:0;">
+                <a href={`/blog/${post.id}`} style="color:var(--color-plum);text-decoration:none;transition:opacity 150ms ease;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">{post.data.title}</a>
+              </h2>
+              <p style="font-size:0.95rem;line-height:1.7;color:var(--color-ink);opacity:0.7;margin:0;">{post.data.description}</p>
+              <a href={`/blog/${post.id}`} style="font-size:0.875rem;font-weight:600;color:var(--color-rose);text-decoration:underline;">Read more →</a>
+            </div>
+            {post.data.coverImage && (
+              <div style="border-radius:8px;overflow:hidden;aspect-ratio:16/7;">
+                <img
+                  src={post.data.coverImage}
+                  alt={post.data.coverAlt ?? post.data.title}
+                  width="800"
+                  height="350"
+                  loading="lazy"
+                  decoding="async"
+                  style="width:100%;height:100%;object-fit:cover;"
+                />
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

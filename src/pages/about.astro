@@ -1,0 +1,130 @@
+---
+import Base from '../layouts/Base.astro';
+import FAQ from '../components/FAQ.astro';
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Veronica Carpenter",
+  "jobTitle": "Certified Yoga Therapist",
+  "description": "BA, C-IAYT, E-RYT 500 with 2,000+ teaching hours. Based in Audubon, NJ.",
+  "url": "https://blissfulbutterflyyoga.com/about",
+  "sameAs": [
+    "https://www.facebook.com/BlissfulButterflyYoga",
+    "https://instagram.com/blissfulbutterflyyoga",
+    "https://www.linkedin.com/in/veronica-carpenter-1980/",
+  ],
+};
+---
+
+<Base
+  title="About Veronica Carpenter, C-IAYT, E-RYT 500"
+  description="Meet Veronica Carpenter — Certified Yoga Therapist, E-RYT 500, and founder of Blissful Butterfly Yoga. Trained at Bloomsburg, Yogaville, and YogaLife Institute."
+  image="/images/about-portrait.jpg"
+  type="website"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <!-- Page Hero -->
+  <section style="background:var(--color-sand);padding:80px 0 0;">
+    <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;padding-bottom:80px;">
+      <div class="fade-in">
+        <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-rose);margin-bottom:0.5rem;">About</p>
+        <h1 style="font-size:clamp(2.2rem,5vw,3.2rem);margin-bottom:1.5rem;">Veronica Carpenter</h1>
+
+        <p style="font-size:1rem;line-height:1.8;color:var(--color-ink);margin-bottom:1rem;">
+          I'm a Certified Yoga Therapist (C-IAYT) and E-RYT 500 with over 2,000 teaching hours, based in Audubon, NJ. I completed my undergraduate work at Bloomsburg University, my 200-hour and 500-hour yoga teacher training at Satchidananda Ashram–Yogaville, and advanced training at YogaLife Institute.
+        </p>
+        <p style="font-size:1rem;line-height:1.8;color:var(--color-ink);margin-bottom:1rem;">
+          I found yoga during a season of my own grief and loss, and what I discovered changed everything — not the kind of yoga you see on Instagram, but the real, unglamorous, deeply human practice that teaches you to inhabit your own body again. That's what I bring to every class and session.
+        </p>
+        <p style="font-size:1rem;line-height:1.8;color:var(--color-ink);margin-bottom:1rem;">
+          My work is trauma-informed, which means I understand that bodies carry stories. I'm not here to fix you. I'm here to offer tools — breath, movement, presence — that help you feel more at home in yourself. Whether you're carrying grief, burnout, chronic stress, or just the weight of being human right now, you belong in my classes.
+        </p>
+        <p style="font-size:1rem;line-height:1.8;color:var(--color-ink);margin-bottom:1.5rem;">
+          I also work with children through my Mindful Child Support program, and facilitate the Soulhood Circles community and Bad Romance Recovery program for women navigating relationship loss.
+        </p>
+
+        <!-- Credentials -->
+        <div style="display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1.5rem;padding:1.25rem;background:var(--color-cream);border-radius:4px;border:1px solid var(--color-line);">
+          <figure style="margin:0;text-align:center;">
+            <img src="/images/cert-ciayt.jpg" alt="Certified Yoga Therapist credential from IAYT" width="80" height="80" loading="lazy" style="width:80px;height:80px;object-fit:contain;border-radius:4px;" />
+            <figcaption style="font-size:0.7rem;margin-top:0.25rem;color:var(--color-ink);opacity:0.6;">C-IAYT</figcaption>
+          </figure>
+          <figure style="margin:0;text-align:center;">
+            <img src="/images/cert-eryt500.png" alt="E-RYT 500 credential from Yoga Alliance" width="80" height="80" loading="lazy" style="width:80px;height:80px;object-fit:contain;border-radius:4px;" />
+            <figcaption style="font-size:0.7rem;margin-top:0.25rem;color:var(--color-ink);opacity:0.6;">E-RYT 500</figcaption>
+          </figure>
+          <div>
+            <p style="margin:0;font-size:0.9rem;font-weight:600;color:var(--color-plum);">Veronica Carpenter</p>
+            <p style="margin:0;font-size:0.8rem;color:var(--color-ink);opacity:0.7;">BA · C-IAYT · E-RYT 500</p>
+            <p style="margin:0;font-size:0.8rem;color:var(--color-ink);opacity:0.7;">2,000+ teaching hours · Audubon, NJ</p>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
+          <a href="/book/discovery-call" class="btn-primary">Book a Discovery Call</a>
+          <a href="/offerings/classes" class="btn-rose">Try a class →</a>
+        </div>
+      </div>
+
+      <div class="fade-in" style="position:sticky;top:96px;">
+        <div style="border-radius:16px;overflow:hidden;aspect-ratio:3/4;">
+          <img
+            src="/images/about-portrait.jpg"
+            alt="Portrait of Veronica Carpenter"
+            width="600"
+            height="800"
+            loading="eager"
+            decoding="async"
+            style="width:100%;height:100%;object-fit:cover;"
+          />
+        </div>
+        <!-- Pull quote -->
+        <blockquote style="margin:1.5rem 0 0;padding:1.25rem 1.5rem;border-left:3px solid var(--color-plum);background:var(--color-cream);">
+          <p style="font-family:var(--font-display);font-size:1.15rem;font-style:italic;color:var(--color-plum);line-height:1.6;margin:0 0 0.5rem;">"Yoga is not about touching your toes, it is about what you learn on the way down."</p>
+          <cite style="font-family:var(--font-hand);font-size:1rem;font-style:normal;color:var(--color-ink);opacity:0.7;">— Jigar Gor</cite>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- Tree photo section -->
+  <section class="section-pad">
+    <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
+      <div class="fade-in" style="border-radius:16px;overflow:hidden;aspect-ratio:4/5;">
+        <img
+          src="/images/veronica-tree.jpg"
+          alt="Veronica standing inside a hollow tree"
+          width="600"
+          height="750"
+          loading="lazy"
+          decoding="async"
+          style="width:100%;height:100%;object-fit:cover;"
+        />
+      </div>
+      <div class="fade-in">
+        <h2 style="font-size:clamp(1.8rem,3.5vw,2.4rem);margin-bottom:1.25rem;">My teaching philosophy</h2>
+        <p style="font-size:1rem;line-height:1.8;color:var(--color-ink);margin-bottom:1rem;">
+          Like the butterfly that gave this practice its name — transformation is not loud. It's slow, internal, and it happens in the dark before it happens in the light.
+        </p>
+        <p style="font-size:1rem;line-height:1.8;color:var(--color-ink);margin-bottom:1rem;">
+          I teach yoga as a practice of coming home to yourself. That means we move at the pace your nervous system can hold. We use props without apology. We rest without guilt. And we show up exactly as we are — not as we think we should be.
+        </p>
+        <p style="font-size:1rem;line-height:1.8;color:var(--color-ink);">
+          My classes are informed by Integral Yoga (Yogaville), Yin Yoga, somatic work, and my own ongoing study of yoga therapy through IAYT. Every practice I offer has been shaped by what I've learned works — for real bodies, in real life.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    @media (max-width: 768px) {
+      section > .container[style*="grid-template-columns:1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+</Base>

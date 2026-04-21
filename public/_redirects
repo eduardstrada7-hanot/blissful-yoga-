@@ -1,0 +1,47 @@
+# 301 redirects from old Wix URLs to new site structure
+
+# Old homepage / misc
+/home                           /                               301
+/index.html                     /                               301
+
+# Old class / booking pages
+/online-yoga-classes            /offerings/classes              301
+/livestream-classes             /offerings/classes              301
+/drop-in-livestream             /offerings/classes              301
+/about-accessible-yoga          /offerings/classes              301
+/packages-subscrptions          /packages                       301
+/packages-subscriptions         /packages                       301
+/packages                       /offerings/classes              301
+
+# Old about / contact
+/about-veronica                 /about                          301
+/about-me                       /about                          301
+
+# Old offering pages
+/yoga-therapy                   /offerings/yoga-therapy         301
+/private-sessions               /offerings/yoga-therapy         301
+/soulhood-circles               /offerings/soulhood             301
+/bad-romance                    /offerings/bad-romance          301
+/bad-romance-recovery           /offerings/bad-romance          301
+/mindful-child-support          /offerings/children             301
+/kids-yoga                      /offerings/children             301
+/special-events                 /offerings/events               301
+/ecstatic-dance                 /offerings/events               301
+
+# Old resources
+/yoga-on-demand                 /on-demand                      301
+/videos                         /free                           301
+/free-videos                    /free                           301
+/root-chakra                    /free                           301
+/shop                           /offerings                      301
+
+# Old blog (preserve slugs)
+/post/why-i-shave-my-head       /blog/why-i-shave-my-head       301
+/post/birthday-beauty           /blog/birthday-beauty           301
+
+# Inspiration station → free resources
+/inspiration-station            /free                           301
+
+# Members / login — redirect to contact
+/members                        /contact                        301
+/log-in                         /contact                        301

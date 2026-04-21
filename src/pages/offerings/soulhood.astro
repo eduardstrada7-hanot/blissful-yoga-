@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import EmailSignup from '../../components/EmailSignup.astro';
+---
+
+<Base
+  title="Soulhood Circles — Women's Community Gatherings"
+  description="Soulhood Circles with Veronica Carpenter — intimate community gatherings for women seeking deeper connection, healing, and authentic belonging."
+>
+  <section style="padding:80px 0;background:var(--color-sand);">
+    <div class="container" style="max-width:760px;">
+      <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-rose);margin-bottom:0.5rem;" class="fade-in">Community</p>
+      <h1 style="font-size:clamp(2.2rem,5vw,3rem);margin-bottom:1rem;" class="fade-in">Soulhood Circles</h1>
+      <p style="font-size:1.1rem;line-height:1.75;color:var(--color-ink);opacity:0.8;max-width:580px;margin-bottom:2rem;" class="fade-in">
+        A circle for women who are ready to be witnessed — not fixed, not advised, not performed for. Just held.
+      </p>
+
+      <div style="display:flex;flex-direction:column;gap:1.5rem;margin-bottom:3rem;" class="fade-in">
+        {[
+          ["What it is", "Soulhood Circles are small-group gatherings (online via Zoom) for women who want community rooted in authenticity and mutual support. Each circle includes breathwork, reflection, and open sharing."],
+          ["Who it's for", "Women navigating transitions, loneliness, spiritual searching, or the quiet ache of wanting to be known. No prior yoga experience needed."],
+          ["What's included", "Regular live gatherings, a private community space, and guided practices between sessions."],
+          ["Dates & pricing", "Upcoming circle dates and pricing are available by joining the waitlist below. Veronica will be in touch with all the details."],
+        ].map(([label, body]) => (
+          <div style="padding:1.5rem;background:var(--color-cream);border:1px solid var(--color-line);border-radius:4px;">
+            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-sage);margin:0 0 0.5rem;">{label}</p>
+            <p style="font-size:0.95rem;line-height:1.7;color:var(--color-ink);margin:0;">{body}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="fade-in" style="text-align:center;padding:2.5rem;background:var(--color-plum);border-radius:4px;color:var(--color-cream);margin-bottom:2rem;">
+        <h2 style="color:var(--color-cream);margin-bottom:0.75rem;">Join the waitlist</h2>
+        <p style="opacity:0.85;margin-bottom:1.5rem;">Get notified when the next Soulhood Circle opens.</p>
+        <a href={`mailto:veronica@blissfulbutterflyyoga.com?subject=Soulhood Circles Waitlist`} class="btn-outline">
+          Email to join the waitlist →
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

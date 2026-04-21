@@ -1,0 +1,120 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+
+<Base
+  title="Contact Veronica — Blissful Butterfly Yoga"
+  description="Get in touch with Veronica Carpenter. Questions about yoga therapy, classes, or community programs — reach out and she'll respond within 24 hours."
+>
+  <section style="padding:80px 0;background:var(--color-sand);">
+    <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;max-width:1000px;">
+
+      <div class="fade-in">
+        <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-rose);margin-bottom:0.5rem;">Get in touch</p>
+        <h1 style="font-size:clamp(2.2rem,5vw,3rem);margin-bottom:1rem;">Contact Veronica</h1>
+        <p style="font-size:1rem;line-height:1.75;color:var(--color-ink);opacity:0.75;margin-bottom:2rem;">
+          Questions, ideas, or just want to say hello? Veronica reads every message personally and typically responds within 24 hours.
+        </p>
+
+        <div style="display:flex;flex-direction:column;gap:1rem;margin-bottom:2rem;">
+          <a href={`mailto:${site.teacher.email}`} style="display:flex;align-items:center;gap:0.75rem;padding:0.875rem 1rem;background:var(--color-cream);border:1px solid var(--color-line);border-radius:4px;transition:box-shadow 150ms ease;cursor:pointer;text-decoration:none;color:inherit;" onmouseover="this.style.boxShadow='0 2px 12px rgba(91,58,91,0.1)'" onmouseout="this.style.boxShadow='none'">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z" stroke="var(--color-plum)" stroke-width="1.5"/><path d="M2 6l8 6 8-6" stroke="var(--color-plum)" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <div>
+              <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-sage);margin:0;">Email</p>
+              <p style="font-size:0.9rem;color:var(--color-plum);font-weight:600;margin:0;">{site.teacher.email}</p>
+            </div>
+          </a>
+          <div style="padding:0.875rem 1rem;background:var(--color-cream);border:1px solid var(--color-line);border-radius:4px;">
+            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-sage);margin:0 0 0.25rem;">Location</p>
+            <p style="font-size:0.9rem;color:var(--color-ink);margin:0;">Audubon, NJ (online sessions via Zoom)</p>
+          </div>
+        </div>
+
+        <!-- Social links -->
+        <p style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-ink);opacity:0.5;margin-bottom:0.75rem;">Find me online</p>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+          <a href={site.social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" style="padding:0.5rem;background:var(--color-cream);border:1px solid var(--color-line);border-radius:4px;color:var(--color-plum);transition:background 150ms ease;" onmouseover="this.style.background='var(--color-sand)'" onmouseout="this.style.background='var(--color-cream)'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href={site.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" style="padding:0.5rem;background:var(--color-cream);border:1px solid var(--color-line);border-radius:4px;color:var(--color-plum);transition:background 150ms ease;" onmouseover="this.style.background='var(--color-sand)'" onmouseout="this.style.background='var(--color-cream)'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href={site.social.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube" style="padding:0.5rem;background:var(--color-cream);border:1px solid var(--color-line);border-radius:4px;color:var(--color-plum);transition:background 150ms ease;" onmouseover="this.style.background='var(--color-sand)'" onmouseout="this.style.background='var(--color-cream)'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="fade-in">
+        <form id="contact-form" action="#" method="post" style="background:var(--color-cream);border:1px solid var(--color-line);border-radius:4px;padding:2rem;display:flex;flex-direction:column;gap:1.25rem;" novalidate aria-label="Contact form">
+          <input type="text" name="website" tabindex="-1" aria-hidden="true" style="position:absolute;opacity:0;pointer-events:none;width:0;height:0;" autocomplete="off" />
+
+          <div>
+            <label for="contact-name" style="display:block;font-size:0.875rem;font-weight:600;color:var(--color-ink);margin-bottom:0.375rem;">Your name <span aria-label="required">*</span></label>
+            <input type="text" id="contact-name" name="name" required autocomplete="name" style="width:100%;padding:0.75rem 1rem;border:1px solid var(--color-line);border-radius:4px;font-size:1rem;font-family:var(--font-body);background:var(--color-cream);color:var(--color-ink);" />
+          </div>
+
+          <div>
+            <label for="contact-email" style="display:block;font-size:0.875rem;font-weight:600;color:var(--color-ink);margin-bottom:0.375rem;">Email address <span aria-label="required">*</span></label>
+            <input type="email" id="contact-email" name="email" required autocomplete="email" style="width:100%;padding:0.75rem 1rem;border:1px solid var(--color-line);border-radius:4px;font-size:1rem;font-family:var(--font-body);background:var(--color-cream);color:var(--color-ink);" />
+          </div>
+
+          <div>
+            <label for="contact-topic" style="display:block;font-size:0.875rem;font-weight:600;color:var(--color-ink);margin-bottom:0.375rem;">What's this about?</label>
+            <select id="contact-topic" name="topic" style="width:100%;padding:0.75rem 1rem;border:1px solid var(--color-line);border-radius:4px;font-size:1rem;font-family:var(--font-body);background:var(--color-cream);color:var(--color-ink);cursor:pointer;">
+              <option value="">Choose a topic</option>
+              <option value="yoga-therapy">Yoga Therapy</option>
+              <option value="classes">Classes</option>
+              <option value="bad-romance">Bad Romance Recovery</option>
+              <option value="kids">Kids / Mindful Child Support</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="contact-message" style="display:block;font-size:0.875rem;font-weight:600;color:var(--color-ink);margin-bottom:0.375rem;">Message <span aria-label="required">*</span></label>
+            <textarea id="contact-message" name="message" required rows="5" style="width:100%;padding:0.75rem 1rem;border:1px solid var(--color-line);border-radius:4px;font-size:1rem;font-family:var(--font-body);background:var(--color-cream);color:var(--color-ink);resize:vertical;"></textarea>
+          </div>
+
+          <p id="contact-error" role="alert" aria-live="polite" style="color:#c0392b;font-size:0.875rem;display:none;"></p>
+          <p id="contact-success" role="status" aria-live="polite" style="color:var(--color-sage);font-weight:600;display:none;">Message sent! Veronica will reply within 24 hours.</p>
+
+          <button type="submit" class="btn-primary" style="width:100%;justify-content:center;font-size:1rem;">Send message</button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <style>
+    @media (max-width: 768px) {
+      section > .container[style*="grid-template-columns:1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+
+  <script>
+    const form = document.getElementById('contact-form') as HTMLFormElement;
+    const errorEl = document.getElementById('contact-error') as HTMLElement;
+    const successEl = document.getElementById('contact-success') as HTMLElement;
+
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = (form.querySelector('#contact-name') as HTMLInputElement).value.trim();
+      const email = (form.querySelector('#contact-email') as HTMLInputElement).value.trim();
+      const message = (form.querySelector('#contact-message') as HTMLTextAreaElement).value.trim();
+
+      if (!name || !email || !message) {
+        errorEl.style.display = 'block';
+        errorEl.textContent = 'Please fill in all required fields.';
+        return;
+      }
+      errorEl.style.display = 'none';
+      // Wire to Formspree / Netlify Forms / etc.
+      successEl.style.display = 'block';
+      form.reset();
+    });
+  </script>
+</Base>

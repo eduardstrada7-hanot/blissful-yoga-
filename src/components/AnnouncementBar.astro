@@ -1,0 +1,31 @@
+---
+import announcement from '../data/announcement.json';
+
+const isExpired = announcement.expiresOn
+  ? new Date(announcement.expiresOn) < new Date()
+  : false;
+
+const show = announcement.active && !!announcement.message && !isExpired;
+---
+
+{show && (
+  <div id="announcement-bar" role="region" aria-label="Announcement" style="background:var(--color-plum);color:var(--color-cream);padding:0.6rem 1.5rem;text-align:center;font-size:0.875rem;font-weight:500;display:flex;align-items:center;justify-content:center;gap:1rem;">
+    <span>
+      {announcement.message}
+      {announcement.link && (
+        <a href={announcement.link} style="color:var(--color-gold);text-decoration:underline;margin-left:0.5rem;">Learn more</a>
+      )}
+    </span>
+    <button id="dismiss-announcement" aria-label="Dismiss announcement" style="background:none;border:none;cursor:pointer;color:var(--color-cream);opacity:0.7;padding:0;line-height:1;flex-shrink:0;">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <line x1="2" y1="2" x2="14" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <line x1="14" y1="2" x2="2" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <script>
+    document.getElementById('dismiss-announcement')?.addEventListener('click', () => {
+      document.getElementById('announcement-bar')?.remove();
+    });
+  </script>
+)}

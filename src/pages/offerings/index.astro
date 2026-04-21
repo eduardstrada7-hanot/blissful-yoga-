@@ -1,0 +1,76 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const offerings = [
+  {
+    href: "/offerings/classes",
+    title: "Livestream Classes",
+    description: "Drop-in live yoga classes for all levels. $15 per class.",
+    icon: `<svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="15" stroke="var(--color-plum)" stroke-width="1.5"/><polygon points="14,12 26,18 14,24" fill="var(--color-plum)"/></svg>`,
+  },
+  {
+    href: "/offerings/yoga-therapy",
+    title: "Yoga Therapy",
+    description: "Private 1:1 sessions tailored to your body and nervous system.",
+    icon: `<svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 4C10.27 4 4 10.27 4 18s6.27 14 14 14 14-6.27 14-14S25.73 4 18 4zm0 6a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 20c-3.86 0-7.29-1.97-9.33-4.97.05-3.09 6.24-4.79 9.33-4.79 3.1 0 9.28 1.7 9.33 4.79A11.12 11.12 0 0 1 18 30z" fill="var(--color-plum)" opacity="0.8"/></svg>`,
+  },
+  {
+    href: "/offerings/soulhood",
+    title: "Soulhood Circles",
+    description: "Community gatherings for women seeking deeper connection and healing.",
+    icon: `<svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="12" cy="14" r="5" stroke="var(--color-rose)" stroke-width="1.5"/><circle cx="24" cy="14" r="5" stroke="var(--color-rose)" stroke-width="1.5"/><path d="M4 30c0-4.42 3.58-8 8-8h12c4.42 0 8 3.58 8 8" stroke="var(--color-rose)" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  },
+  {
+    href: "/offerings/bad-romance",
+    title: "Bad Romance Recovery",
+    description: "A structured program for healing from relationship loss and toxic patterns.",
+    icon: `<svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 30l-1.45-1.32C7.8 20.12 2 15.18 2 9.2 2 5.08 5.08 2 9 2c2.16 0 4.24.96 5.58 2.5L18 8l3.42-3.5C22.76 2.96 24.84 2 27 2c3.92 0 7 3.08 7 7.2 0 5.98-5.8 10.92-14.55 19.48L18 30z" fill="var(--color-plum)" opacity="0.15" stroke="var(--color-plum)" stroke-width="1.5"/></svg>`,
+  },
+  {
+    href: "/offerings/children",
+    title: "Mindful Child Support",
+    description: "Yoga and mindfulness tools for children and their parents.",
+    icon: `<svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="10" r="5" stroke="var(--color-sage)" stroke-width="1.5"/><path d="M10 30v-6a8 8 0 0 1 16 0v6" stroke="var(--color-sage)" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  },
+  {
+    href: "/offerings/events",
+    title: "Special Events",
+    description: "Workshops, retreats, and seasonal Ecstatic Dance gatherings.",
+    icon: `<svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 4l3.09 8.26L30 14l-6.5 5.74L25.64 28 18 23.74 10.36 28l2.14-8.26L6 14l8.91-1.74z" stroke="var(--color-gold)" stroke-width="1.5" stroke-linejoin="round" fill="rgba(201,163,78,0.1)"/></svg>`,
+  },
+  {
+    href: "/on-demand",
+    title: "Yoga On Demand",
+    description: "Members-only library of recorded classes, available any time.",
+    icon: `<svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="3" y="7" width="30" height="22" rx="3" stroke="var(--color-plum)" stroke-width="1.5"/><path d="M15 14l8 4-8 4V14z" fill="var(--color-plum)"/></svg>`,
+  },
+];
+---
+
+<Base
+  title="All Offerings — Yoga Classes, Therapy & Community"
+  description="Explore all offerings from Blissful Butterfly Yoga: livestream classes, 1:1 yoga therapy, Soulhood Circles, Bad Romance Recovery, Mindful Child Support, and more."
+>
+  <section style="padding:80px 0 0;background:var(--color-sand);">
+    <div class="container" style="padding-bottom:80px;">
+      <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-rose);margin-bottom:0.5rem;" class="fade-in">What I offer</p>
+      <h1 style="font-size:clamp(2.4rem,6vw,3.5rem);margin-bottom:1rem;" class="fade-in">Offerings</h1>
+      <p style="max-width:560px;font-size:1rem;line-height:1.7;color:var(--color-ink);opacity:0.75;margin-bottom:3rem;" class="fade-in">
+        Whether you're looking for a gentle weekly class, deep 1:1 support, or community — there's a place for you here.
+      </p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;">
+        {offerings.map(({ href, title, description, icon }) => (
+          <a href={href} class="fade-in" style="display:flex;flex-direction:column;gap:1rem;padding:1.75rem;background:var(--color-cream);border:1px solid var(--color-line);border-radius:4px;text-decoration:none;color:inherit;transition:box-shadow 150ms ease,transform 150ms ease;cursor:pointer;" onmouseover="this.style.boxShadow='0 6px 24px rgba(91,58,91,0.1)';this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none';this.style.transform='none';">
+            <div set:html={icon} />
+            <div>
+              <h2 style="font-size:1.25rem;font-weight:700;margin:0 0 0.5rem;">{title}</h2>
+              <p style="font-size:0.9rem;color:var(--color-ink);opacity:0.7;margin:0;line-height:1.6;">{description}</p>
+            </div>
+            <span style="margin-top:auto;font-size:0.875rem;font-weight:600;color:var(--color-rose);">Learn more →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

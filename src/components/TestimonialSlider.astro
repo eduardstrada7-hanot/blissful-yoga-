@@ -1,0 +1,84 @@
+---
+import testimonials from '../data/testimonials.json';
+---
+
+<section aria-label="Client testimonials" style="background:var(--color-sand);padding:80px 0;">
+  <div class="container">
+    <h2 style="text-align:center;font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:2.5rem;" class="fade-in">What students say</h2>
+    <div id="testimonial-track" style="position:relative;overflow:hidden;" aria-live="polite" aria-atomic="true">
+      {testimonials.map((t, i) => (
+        <div
+          class="testimonial-slide"
+          data-index={i}
+          aria-hidden={i !== 0 ? 'true' : 'false'}
+          style={`display:${i === 0 ? 'block' : 'none'};`}
+        >
+          <blockquote style="max-width:680px;margin:0 auto;text-align:center;">
+            <svg width="32" height="24" viewBox="0 0 32 24" fill="none" style="margin:0 auto 1rem;" aria-hidden="true">
+              <path d="M0 24V14.4C0 8.64 3.2 3.84 9.6 0l2.4 3.2C8.32 5.44 6.4 8.32 6.4 12H12V24H0zm20 0V14.4C20 8.64 23.2 3.84 29.6 0L32 3.2c-3.68 2.24-5.6 5.12-5.6 8.8H32V24H20z" fill="var(--color-plum)" opacity="0.3"/>
+            </svg>
+            <p style="font-family:var(--font-display);font-size:clamp(1.1rem,2.5vw,1.35rem);font-style:italic;line-height:1.7;color:var(--color-ink);margin-bottom:1.25rem;">"{t.quote}"</p>
+            <footer>
+              <cite style="font-style:normal;font-weight:600;color:var(--color-plum);font-size:0.95rem;">— {t.author}</cite>
+              {t.context && <span style="display:block;font-size:0.8rem;color:var(--color-ink);opacity:0.6;margin-top:0.25rem;">{t.context}</span>}
+            </footer>
+          </blockquote>
+        </div>
+      ))}
+    </div>
+
+    <!-- Dots -->
+    <div style="display:flex;justify-content:center;gap:0.5rem;margin-top:2rem;" role="tablist" aria-label="Testimonial navigation">
+      {testimonials.map((_, i) => (
+        <button
+          class="testimonial-dot"
+          data-index={i}
+          role="tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+          aria-label={`Testimonial ${i + 1}`}
+          style={`width:8px;height:8px;border-radius:50%;border:none;cursor:pointer;transition:background 150ms ease,transform 150ms ease;background:${i === 0 ? 'var(--color-plum)' : 'var(--color-line)'};transform:${i === 0 ? 'scale(1.3)' : 'scale(1)'};padding:0;`}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const slides = document.querySelectorAll<HTMLElement>('.testimonial-slide');
+  const dots = document.querySelectorAll<HTMLButtonElement>('.testimonial-dot');
+  let current = 0;
+  let timer: ReturnType<typeof setInterval>;
+
+  function goTo(idx: number) {
+    slides[current].style.display = 'none';
+    slides[current].setAttribute('aria-hidden', 'true');
+    dots[current].style.background = 'var(--color-line)';
+    dots[current].style.transform = 'scale(1)';
+    dots[current].setAttribute('aria-selected', 'false');
+
+    current = (idx + slides.length) % slides.length;
+
+    slides[current].style.display = 'block';
+    slides[current].setAttribute('aria-hidden', 'false');
+    dots[current].style.background = 'var(--color-plum)';
+    dots[current].style.transform = 'scale(1.3)';
+    dots[current].setAttribute('aria-selected', 'true');
+  }
+
+  function startTimer() {
+    timer = setInterval(() => goTo(current + 1), 6000);
+  }
+  function stopTimer() { clearInterval(timer); }
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => { stopTimer(); goTo(i); startTimer(); });
+  });
+
+  const track = document.getElementById('testimonial-track');
+  track?.addEventListener('mouseenter', stopTimer);
+  track?.addEventListener('mouseleave', startTimer);
+  track?.addEventListener('focusin', stopTimer);
+  track?.addEventListener('focusout', startTimer);
+
+  startTimer();
+</script>

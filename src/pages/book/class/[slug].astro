@@ -1,0 +1,79 @@
+---
+import Base from '../../../layouts/Base.astro';
+import classes from '../../../data/classes.json';
+
+export function getStaticPaths() {
+  return classes.map((cls) => ({ params: { slug: cls.slug }, props: { cls } }));
+}
+
+const { cls } = Astro.props;
+---
+
+<Base
+  title={`Book ${cls.name} — $${cls.price} Online Yoga Class`}
+  description={`Book a spot in ${cls.name} with Veronica Carpenter. ${cls.style} · ${cls.length} min · All levels welcome. $${cls.price} drop-in.`}
+  image={cls.image}
+>
+  <section style="padding:80px 0;background:var(--color-sand);">
+    <div class="container" style="max-width:760px;">
+      <a href="/offerings/classes" style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.875rem;font-weight:600;color:var(--color-rose);text-decoration:underline;margin-bottom:1.5rem;" class="fade-in">← Back to all classes</a>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;" class="fade-in">
+        <div>
+          <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-sage);margin-bottom:0.5rem;">{cls.style}</p>
+          <h1 style="font-size:clamp(2rem,4vw,2.6rem);margin-bottom:0.75rem;">{cls.name}</h1>
+          <p style="font-size:1rem;line-height:1.7;color:var(--color-ink);opacity:0.8;margin-bottom:1.5rem;">{cls.description}</p>
+
+          <div style="display:flex;flex-direction:column;gap:0.625rem;margin-bottom:1.75rem;font-size:0.9rem;">
+            {[
+              ["Day & Time", `${cls.day} · ${cls.time}`],
+              ["Length", `${cls.length} minutes`],
+              ["Level", cls.level],
+              ["Format", "Live on Zoom — link sent after booking"],
+              ["Price", `$${cls.price} drop-in`],
+            ].map(([label, val]) => (
+              <div style="display:flex;gap:0.75rem;padding:0.625rem;background:var(--color-cream);border:1px solid var(--color-line);border-radius:4px;align-items:center;">
+                <span style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-sage);min-width:80px;">{label}</span>
+                <span style="color:var(--color-ink);">{val}</span>
+              </div>
+            ))}
+          </div>
+
+          <!-- Booking placeholder -->
+          <div style="padding:2rem;background:var(--color-cream);border:1px solid var(--color-line);border-radius:4px;text-align:center;">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" style="margin:0 auto 0.75rem;" aria-hidden="true"><rect x="5" y="8" width="30" height="27" rx="3" stroke="var(--color-plum)" stroke-width="1.5"/><path d="M5 15h30" stroke="var(--color-plum)" stroke-width="1.5"/><path d="M13 5v6M27 5v6" stroke="var(--color-plum)" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <p style="font-weight:600;color:var(--color-plum);margin-bottom:0.5rem;">Booking calendar coming soon</p>
+            <p style="font-size:0.85rem;color:var(--color-ink);opacity:0.65;margin-bottom:1rem;">Email Veronica to reserve your spot:</p>
+            <a href={`mailto:veronica@blissfulbutterflyyoga.com?subject=Booking: ${cls.name}`} class="btn-primary" style="font-size:0.9rem;">
+              Email to book
+            </a>
+            <p style="font-size:0.75rem;color:var(--color-ink);opacity:0.5;margin-top:0.75rem;font-style:italic;">First class free with code <strong>1FREE</strong></p>
+          </div>
+        </div>
+
+        <div style="border-radius:16px;overflow:hidden;aspect-ratio:1/1;position:sticky;top:96px;">
+          <img
+            src={cls.image}
+            alt={`${cls.name} class`}
+            width="500"
+            height="500"
+            loading="eager"
+            decoding="async"
+            style="width:100%;height:100%;object-fit:cover;"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    @media (max-width: 768px) {
+      section > .container > div[style*="grid-template-columns:1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+      }
+      section > .container > div > div:last-child {
+        position: static !important;
+      }
+    }
+  </style>
+</Base>

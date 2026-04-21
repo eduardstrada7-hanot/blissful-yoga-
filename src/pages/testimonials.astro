@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import testimonials from '../data/testimonials.json';
+---
+
+<Base
+  title="Student Testimonials — Blissful Butterfly Yoga"
+  description="Read what students say about Veronica Carpenter's yoga classes and yoga therapy sessions. Real stories from real people."
+>
+  <section style="padding:80px 0;background:var(--color-sand);">
+    <div class="container" style="max-width:900px;">
+      <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-rose);margin-bottom:0.5rem;" class="fade-in">Real students, real stories</p>
+      <h1 style="font-size:clamp(2.2rem,5vw,3rem);margin-bottom:3rem;" class="fade-in">Testimonials</h1>
+
+      <div style="display:flex;flex-direction:column;gap:1.5rem;">
+        {testimonials.map((t) => (
+          <blockquote class="fade-in" style="background:var(--color-cream);border:1px solid var(--color-line);border-radius:4px;padding:2rem;border-left:3px solid var(--color-plum);margin:0;">
+            <p style="font-family:var(--font-display);font-size:1.15rem;font-style:italic;line-height:1.7;color:var(--color-ink);margin:0 0 1rem;">"{t.quote}"</p>
+            <footer>
+              <cite style="font-style:normal;font-weight:600;color:var(--color-plum);">— {t.author}</cite>
+              {t.context && <span style="display:inline;margin-left:0.5rem;font-size:0.8rem;color:var(--color-ink);opacity:0.6;">· {t.context}</span>}
+            </footer>
+          </blockquote>
+        ))}
+      </div>
+
+      <div class="fade-in" style="margin-top:3rem;text-align:center;padding:2.5rem;background:var(--color-plum);border-radius:4px;color:var(--color-cream);">
+        <h2 style="color:var(--color-cream);margin-bottom:0.75rem;font-size:clamp(1.5rem,3vw,2rem);">Ready to experience it yourself?</h2>
+        <p style="opacity:0.85;margin-bottom:1.5rem;">Join a live class or book a Discovery Call — your first class is free.</p>
+        <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:0.875rem;">
+          <a href="/book/discovery-call" class="btn-outline">Book a free Discovery Call</a>
+          <a href="/offerings/classes" style="display:inline-flex;align-items:center;padding:0.75rem 1.75rem;background:var(--color-rose);color:#fff;font-weight:600;border-radius:4px;font-size:0.9375rem;transition:background 150ms ease;text-decoration:none;" onmouseover="this.style.background='var(--color-rose-dark)'" onmouseout="this.style.background='var(--color-rose)'">Try a class →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

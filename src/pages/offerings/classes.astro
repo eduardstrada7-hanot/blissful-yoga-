@@ -1,0 +1,137 @@
+---
+import Base from '../../layouts/Base.astro';
+import ClassCard from '../../components/ClassCard.astro';
+import classes from '../../data/classes.json';
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Blissful Butterfly Yoga — Livestream Classes",
+  "description": "Weekly online yoga classes for all levels. $15 drop-in. Gentle, Vin Yin, Wild Card, and Yin styles.",
+  "itemListElement": classes.map((cls, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "name": cls.name,
+    "description": cls.description,
+    "url": `https://blissfulbutterflyyoga.com/offerings/classes#${cls.slug}`,
+  })),
+};
+---
+
+<Base
+  title="Online Yoga Classes — Livestream Drop-In, $15"
+  description="Join live online yoga classes with Veronica Carpenter, E-RYT 500. Gentle, Vin Yin, and Yin styles. All levels welcome. $15 drop-in. New students get the first class free."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <!-- Hero -->
+  <section style="background:var(--color-sand);padding:80px 0;">
+    <div class="container" style="max-width:760px;">
+      <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-rose);margin-bottom:0.5rem;" class="fade-in">Online · All levels</p>
+      <h1 style="font-size:clamp(2.2rem,5vw,3rem);margin-bottom:1rem;" class="fade-in">Livestream Yoga Classes</h1>
+      <p style="font-size:1.05rem;line-height:1.75;color:var(--color-ink);opacity:0.8;max-width:580px;" class="fade-in">
+        Weekly live classes on Zoom. No mirrors, no judgment — just real yoga for real bodies. Drop in anytime for $15, or grab a package to save.
+      </p>
+
+      <div class="fade-in" style="display:inline-flex;align-items:center;gap:0.5rem;margin-top:1.25rem;font-size:0.875rem;background:var(--color-plum);color:var(--color-cream);padding:0.5rem 1.25rem;border-radius:4px;font-weight:500;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1l1.67 3.38L14 5.24l-3 2.92.71 4.12L8 10.25l-3.71 2.03.71-4.12-3-2.92 4.33-.86z" fill="var(--color-gold)"/></svg>
+        New here? Your first class is free &mdash; use code <strong style="margin-left:0.25rem;font-family:monospace;letter-spacing:0.05em;">1FREE</strong>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- Class cards grid -->
+  <section class="section-pad" aria-labelledby="schedule-heading">
+    <div class="container">
+      <h2 id="schedule-heading" style="font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:0.5rem;" class="fade-in">Weekly schedule</h2>
+      <p style="font-size:0.9rem;color:var(--color-ink);opacity:0.6;margin-bottom:2.5rem;" class="fade-in">All times Eastern. Classes run on Zoom — link sent after booking.</p>
+
+      <!-- Schedule table -->
+      <div style="overflow-x:auto;margin-bottom:3rem;" class="fade-in">
+        <table style="width:100%;border-collapse:collapse;font-size:0.9rem;" role="table" aria-label="Weekly yoga class schedule">
+          <thead>
+            <tr style="background:var(--color-plum);color:var(--color-cream);">
+              <th scope="col" style="padding:0.75rem 1rem;text-align:left;font-weight:600;font-family:var(--font-body);">Class</th>
+              <th scope="col" style="padding:0.75rem 1rem;text-align:left;font-weight:600;font-family:var(--font-body);">Day &amp; Time</th>
+              <th scope="col" style="padding:0.75rem 1rem;text-align:left;font-weight:600;font-family:var(--font-body);">Style</th>
+              <th scope="col" style="padding:0.75rem 1rem;text-align:left;font-weight:600;font-family:var(--font-body);">Length</th>
+              <th scope="col" style="padding:0.75rem 1rem;text-align:left;font-weight:600;font-family:var(--font-body);">Price</th>
+              <th scope="col" style="padding:0.75rem 1rem;text-align:left;font-weight:600;font-family:var(--font-body);">Book</th>
+            </tr>
+          </thead>
+          <tbody>
+            {classes.map((cls, i) => (
+              <tr id={cls.slug} style={`background:${i % 2 === 0 ? 'var(--color-cream)' : 'var(--color-sand)'};`}>
+                <td style="padding:0.875rem 1rem;font-weight:600;color:var(--color-plum);">{cls.name}</td>
+                <td style="padding:0.875rem 1rem;">{cls.day} · {cls.time}</td>
+                <td style="padding:0.875rem 1rem;font-size:0.85rem;color:var(--color-ink);opacity:0.7;">{cls.style}</td>
+                <td style="padding:0.875rem 1rem;">{cls.length} min</td>
+                <td style="padding:0.875rem 1rem;font-weight:700;color:var(--color-plum);">${cls.price}</td>
+                <td style="padding:0.875rem 1rem;">
+                  <a href={`/book/class/${cls.slug}`} class="btn-rose" style="padding:0.375rem 1rem;font-size:0.8125rem;" aria-label={`Book ${cls.name}`}>Book</a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Cards grid -->
+      <h2 style="font-size:clamp(1.5rem,3vw,2rem);margin-bottom:1.5rem;" class="fade-in">About each class</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;">
+        {classes.map((cls) => (
+          <div class="fade-in">
+            <ClassCard {...cls} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- About my teaching style -->
+  <section class="section-pad" style="background:var(--color-sand);" aria-labelledby="style-heading">
+    <div class="container" style="max-width:760px;">
+      <details>
+        <summary id="style-heading" style="font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--color-plum);cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.5rem 0;">
+          About my teaching style
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" style="flex-shrink:0;transition:transform 200ms;"><path d="M5 8l5 5 5-5" stroke="var(--color-plum)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </summary>
+        <div style="padding:1.5rem 0;font-size:0.975rem;line-height:1.8;color:var(--color-ink);opacity:0.8;max-width:640px;">
+          <p style="margin-bottom:1rem;">My classes are built on Integral Yoga foundations from Yogaville, with influences from Yin Yoga, somatic movement, and yoga therapy. I teach to the room — or in this case, the Zoom — and every class adjusts to the energy I feel from you.</p>
+          <p style="margin-bottom:1rem;">Modifications are offered in every pose. Props (blocks, straps, blankets, chairs) are enthusiastically encouraged. If you need to rest, rest. If you need to modify, modify. There is no "doing it wrong" in my classes.</p>
+          <p>I use trauma-informed language, which means I offer invitations — not commands. You are always in charge of your own body.</p>
+        </div>
+      </details>
+
+      <hr style="border:none;border-top:1px solid var(--color-line);margin:1rem 0;" />
+
+      <details style="margin-top:1rem;">
+        <summary style="font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;color:var(--color-plum);cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.5rem 0;">
+          Suggested props
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" style="flex-shrink:0;"><path d="M5 8l5 5 5-5" stroke="var(--color-plum)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </summary>
+        <div style="padding:1.5rem 0;font-size:0.975rem;line-height:1.8;color:var(--color-ink);opacity:0.8;">
+          <p style="margin-bottom:1rem;">You don't need any props to join class — but having some on hand makes the practice richer. Helpful items:</p>
+          <ul style="display:flex;flex-direction:column;gap:0.5rem;list-style:none;padding:0;margin:0;">
+            {[
+              "2 yoga blocks (or thick books)",
+              "1 yoga strap (or a belt/scarf)",
+              "1–2 blankets",
+              "A bolster (or a rolled-up blanket)",
+              "A sturdy chair without arms",
+            ].map(item => (
+              <li style="display:flex;gap:0.5rem;align-items:center;">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="6" fill="var(--color-sage)" opacity="0.2"/><path d="M4 7l2 2 4-4" stroke="var(--color-sage)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </details>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,166 @@
+---
+import Base from '../../layouts/Base.astro';
+import FAQ from '../../components/FAQ.astro';
+
+const faqs = [
+  {
+    q: "What is yoga therapy, and how is it different from a yoga class?",
+    a: "Yoga therapy is a one-on-one therapeutic application of yoga techniques — breath, movement, meditation, and lifestyle — tailored specifically to your health conditions, goals, and nervous-system needs. Unlike a group class, it's built entirely around you.",
+  },
+  {
+    q: "Do I need any yoga experience?",
+    a: "None at all. Yoga therapy is designed to meet you exactly where you are, including if you have never taken a yoga class, have limited mobility, or have a chronic illness.",
+  },
+  {
+    q: "What does a typical session look like?",
+    a: "We begin with a conversation about how you're feeling that day. From there, Veronica guides you through a personalized sequence of breathwork, gentle movement, and relaxation. Sessions are typically 60–75 minutes via Zoom.",
+  },
+  {
+    q: "What conditions does yoga therapy help with?",
+    a: "Chronic stress and burnout, anxiety and depression, grief and loss, trauma recovery, sleep disorders, chronic pain, and nervous system dysregulation. If you're unsure whether it's a fit, the Discovery Call is the place to find out.",
+  },
+  {
+    q: "How many sessions will I need?",
+    a: "It varies. Some people experience meaningful shifts in 3–4 sessions; others work with Veronica on an ongoing basis. She'll give you an honest assessment on your Discovery Call.",
+  },
+  {
+    q: "Is this covered by insurance?",
+    a: "Yoga therapy is generally not covered by health insurance in the US, though some FSA/HSA accounts may cover it. Veronica can provide a receipt for submission if needed.",
+  },
+  {
+    q: "What's the Discovery Call?",
+    a: "A free 20-minute conversation via Zoom. You'll share what you're dealing with, ask any questions, and Veronica will let you know honestly whether yoga therapy is the right fit for you.",
+  },
+  {
+    q: "How do I book?",
+    a: `Book your free Discovery Call <a href="/book/discovery-call" style="color:var(--color-rose);text-decoration:underline;">here</a>. Veronica personally reviews every request and will confirm within 24 hours.`,
+  },
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "1:1 Yoga Therapy",
+  "description": "Private yoga therapy sessions with Veronica Carpenter, C-IAYT. Trauma-informed, evidence-informed somatic work for stress, grief, chronic pain, and nervous system healing.",
+  "provider": {
+    "@type": "Person",
+    "name": "Veronica Carpenter",
+    "jobTitle": "Certified Yoga Therapist, C-IAYT, E-RYT 500",
+  },
+  "url": "https://blissfulbutterflyyoga.com/offerings/yoga-therapy",
+};
+---
+
+<Base
+  title="1:1 Yoga Therapy — Private Sessions with Veronica Carpenter, C-IAYT"
+  description="Private yoga therapy with Veronica Carpenter, C-IAYT, E-RYT 500. Trauma-informed somatic sessions for chronic stress, grief, sleep, and nervous system healing. Book a free Discovery Call."
+  image="/images/veronica-portrait.jpg"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <!-- Hero -->
+  <section style="background:var(--color-sand);padding:80px 0;">
+    <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
+      <div class="fade-in">
+        <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-rose);margin-bottom:0.5rem;">Private sessions</p>
+        <h1 style="font-size:clamp(2.2rem,5vw,3rem);margin-bottom:1rem;">1:1 Yoga Therapy</h1>
+        <p style="font-size:1.05rem;line-height:1.75;color:var(--color-ink);opacity:0.8;margin-bottom:1.5rem;">
+          Yoga therapy is the therapeutic application of yoga techniques — tailored entirely to you. Not a class. Not a workout. A deeply personal practice that helps your nervous system find its way back to ease.
+        </p>
+        <a href="/book/discovery-call" class="btn-rose" style="font-size:1rem;padding:0.875rem 2rem;">
+          Book a free Discovery Call →
+        </a>
+        <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--color-ink);opacity:0.55;">Free 20-minute Zoom call. No pressure, no commitment.</p>
+      </div>
+      <div class="fade-in" style="border-radius:16px;overflow:hidden;aspect-ratio:4/5;">
+        <img
+          src="/images/veronica-portrait.jpg"
+          alt="Veronica smiling in a studio"
+          width="600"
+          height="750"
+          loading="eager"
+          decoding="async"
+          style="width:100%;height:100%;object-fit:cover;"
+        />
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- What to expect -->
+  <section class="section-pad" aria-labelledby="expect-heading">
+    <div class="container" style="max-width:800px;">
+      <h2 id="expect-heading" style="font-size:clamp(1.8rem,3.5vw,2.4rem);margin-bottom:2.5rem;" class="fade-in">What to expect</h2>
+      <div style="display:flex;flex-direction:column;gap:2rem;">
+        {[
+          { n: "01", title: "Discovery Call (free)", body: "A 20-minute conversation via Zoom. You share what you're carrying. Veronica listens, asks, and tells you honestly whether yoga therapy is the right fit." },
+          { n: "02", title: "Your intake assessment", body: "Before your first session, Veronica sends a gentle intake form so she can prepare a practice designed specifically for your body and situation." },
+          { n: "03", title: "Your first session", body: "60–75 minutes on Zoom. A mix of breathwork, guided movement, and rest — built around exactly where you are that day." },
+          { n: "04", title: "Ongoing practice", body: "Each session builds on the last. Veronica gives you simple practices to use between sessions so the work continues between appointments." },
+        ].map(({ n, title, body }) => (
+          <div class="fade-in" style="display:flex;gap:1.5rem;align-items:flex-start;">
+            <span style="font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--color-plum);opacity:0.2;flex-shrink:0;line-height:1;min-width:2.5rem;">{n}</span>
+            <div>
+              <h3 style="font-size:1.15rem;font-weight:700;margin:0 0 0.4rem;">{title}</h3>
+              <p style="font-size:0.95rem;line-height:1.7;color:var(--color-ink);opacity:0.75;margin:0;">{body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- Who it helps -->
+  <section class="section-pad" style="background:var(--color-sand);" aria-labelledby="helps-heading">
+    <div class="container" style="max-width:800px;">
+      <h2 id="helps-heading" style="font-size:clamp(1.8rem,3.5vw,2.4rem);margin-bottom:1.5rem;" class="fade-in">Who it helps</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;" class="fade-in">
+        {[
+          "Grief, loss, and major life transitions",
+          "Chronic stress and burnout",
+          "Trauma recovery and PTSD",
+          "Sleep and nervous system dysregulation",
+          "Anxiety and depression (alongside professional care)",
+          "Chronic pain and fatigue",
+          "Spiritual injury or faith transitions",
+          "Anyone who feels disconnected from their body",
+        ].map((item) => (
+          <div style="display:flex;gap:0.75rem;align-items:flex-start;padding:0.75rem;background:var(--color-cream);border:1px solid var(--color-line);border-radius:4px;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:2px;" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="var(--color-rose)" opacity="0.15"/><path d="M4.5 8l2.5 2.5 4.5-4.5" stroke="var(--color-rose)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="font-size:0.9rem;line-height:1.5;color:var(--color-ink);">{item}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- Big CTA -->
+  <section class="section-pad">
+    <div class="container" style="max-width:680px;text-align:center;">
+      <div class="fade-in" style="padding:3rem;background:var(--color-plum);border-radius:4px;color:var(--color-cream);">
+        <h2 style="font-size:clamp(1.8rem,3.5vw,2.4rem);color:var(--color-cream);margin-bottom:1rem;">Ready to begin?</h2>
+        <p style="font-size:1rem;opacity:0.85;margin-bottom:1.75rem;line-height:1.7;">Book a free 20-minute Discovery Call. Veronica will listen, answer your questions, and tell you whether yoga therapy is a good fit — no pressure either way.</p>
+        <a href="/book/discovery-call" class="btn-outline" style="font-size:1rem;padding:0.875rem 2.5rem;">
+          Book my free Discovery Call
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <FAQ items={faqs} heading="Your questions, answered" />
+
+  <style>
+    @media (max-width: 768px) {
+      section > .container[style*="grid-template-columns:1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+</Base>

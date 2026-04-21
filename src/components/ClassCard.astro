@@ -1,0 +1,54 @@
+---
+interface Props {
+  slug: string;
+  name: string;
+  image: string;
+  style: string;
+  length: number;
+  price: number;
+  level: string;
+  description: string;
+  day?: string;
+  time?: string;
+}
+
+const { slug, name, image, style, length, price, level, description, day, time } = Astro.props;
+---
+
+<article style="background:var(--color-cream);border:1px solid var(--color-line);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow 150ms ease;" onmouseover="this.style.boxShadow='0 4px 20px rgba(91,58,91,0.12)'" onmouseout="this.style.boxShadow='none'">
+  <div style="aspect-ratio:4/3;overflow:hidden;">
+    <img
+      src={image}
+      alt={`${name} class`}
+      width="400"
+      height="300"
+      loading="lazy"
+      decoding="async"
+      style="width:100%;height:100%;object-fit:cover;transition:transform 300ms ease;"
+      onmouseover="this.style.transform='scale(1.03)'"
+      onmouseout="this.style.transform='scale(1)'"
+    />
+  </div>
+  <div style="padding:1.25rem;display:flex;flex-direction:column;flex:1;gap:0.5rem;">
+    <h3 style="font-size:1.3rem;font-weight:700;margin:0;">{name}</h3>
+    <p style="font-size:0.875rem;color:var(--color-sage);font-weight:500;margin:0;">{style}</p>
+    <p style="font-size:0.9rem;color:var(--color-ink);opacity:0.8;margin:0;flex:1;">{description}</p>
+    <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;font-size:0.8125rem;color:var(--color-ink);opacity:0.65;margin-top:0.25rem;">
+      {day && time && <span>{day} · {time}</span>}
+      <span>{length} min</span>
+      <span>·</span>
+      <span>{level}</span>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--color-line);">
+      <span style="font-family:var(--font-display);font-size:1.4rem;font-weight:700;color:var(--color-plum);">${price}</span>
+      <a
+        href={`/offerings/classes#${slug}`}
+        class="btn-rose"
+        style="padding:0.5rem 1.25rem;font-size:0.875rem;"
+        aria-label={`Book ${name}`}
+      >
+        Book class
+      </a>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,193 @@
+---
+import { site } from '../data/site';
+---
+
+<header id="site-header" style="position:sticky;top:0;z-index:50;background:var(--color-cream);border-bottom:1px solid var(--color-line);transition:box-shadow 150ms ease;">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;height:72px;">
+
+    <!-- Logo -->
+    <a href="/" aria-label="Blissful Butterfly Yoga — home" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+        <ellipse cx="10" cy="14" rx="8" ry="5" fill="var(--color-plum)" opacity="0.85" transform="rotate(-20 10 14)"/>
+        <ellipse cx="22" cy="14" rx="8" ry="5" fill="var(--color-plum)" opacity="0.85" transform="rotate(20 22 14)"/>
+        <ellipse cx="9" cy="20" rx="6" ry="4" fill="var(--color-rose)" opacity="0.7" transform="rotate(-30 9 20)"/>
+        <ellipse cx="23" cy="20" rx="6" ry="4" fill="var(--color-rose)" opacity="0.7" transform="rotate(30 23 20)"/>
+        <line x1="16" y1="8" x2="16" y2="26" stroke="var(--color-ink)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="14" y1="9" x2="12" y2="7" stroke="var(--color-ink)" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="18" y1="9" x2="20" y2="7" stroke="var(--color-ink)" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <span style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:var(--color-plum);letter-spacing:-0.01em;line-height:1;">Blissful Butterfly Yoga</span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav aria-label="Main navigation" class="desktop-nav">
+      {site.nav.map((item) => (
+        item.children ? (
+          <div class="nav-dropdown">
+            <button class="nav-link nav-btn" aria-expanded="false" aria-haspopup="true">
+              {item.label}
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" style="margin-left:4px;">
+                <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="dropdown-menu" role="menu">
+              {item.children.map((child) => (
+                <a href={child.href} class="dropdown-item" role="menuitem">{child.label}</a>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <a href={item.href} class="nav-link">{item.label}</a>
+        )
+      ))}
+    </nav>
+
+    <!-- Book CTA + Mobile Toggle -->
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <a href="/book/discovery-call" class="btn-primary" style="white-space:nowrap;" aria-label="Book a free Discovery Call with Veronica">Book a Free Call</a>
+      <button id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer" class="mobile-only" style="background:none;border:none;cursor:pointer;padding:0.5rem;color:var(--color-plum);">
+        <svg id="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="3" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Drawer -->
+<div id="mobile-drawer" aria-hidden="true" style="position:fixed;inset:0;z-index:200;display:none;">
+  <div id="drawer-backdrop" style="position:absolute;inset:0;background:rgba(43,36,32,0.5);"></div>
+  <div style="position:absolute;top:0;right:0;bottom:0;width:min(320px,90vw);background:var(--color-cream);padding:1.5rem;overflow-y:auto;display:flex;flex-direction:column;gap:0.5rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+      <span style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--color-plum);">Menu</span>
+      <button id="mobile-close-btn" aria-label="Close menu" style="background:none;border:none;cursor:pointer;padding:0.5rem;color:var(--color-plum);">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <line x1="3" y1="3" x2="17" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="17" y1="3" x2="3" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    {site.nav.map((item) => (
+      item.children ? (
+        <div>
+          <span style="display:block;padding:0.5rem 0;font-weight:600;color:var(--color-plum);font-size:0.85rem;text-transform:uppercase;letter-spacing:0.08em;">{item.label}</span>
+          {item.children.map((child) => (
+            <a href={child.href} style="display:block;padding:0.4rem 0 0.4rem 1rem;color:var(--color-ink);font-size:0.95rem;border-bottom:1px solid var(--color-line);">{child.label}</a>
+          ))}
+        </div>
+      ) : (
+        <a href={item.href} style="display:block;padding:0.6rem 0;font-weight:600;color:var(--color-plum);font-size:1rem;border-bottom:1px solid var(--color-line);">{item.label}</a>
+      )
+    ))}
+    <a href="/contact" style="display:block;padding:0.6rem 0;font-weight:600;color:var(--color-plum);font-size:1rem;border-bottom:1px solid var(--color-line);">Contact</a>
+    <div style="margin-top:1.5rem;">
+      <a href="/book/discovery-call" class="btn-rose" style="width:100%;justify-content:center;">Book a Free Discovery Call</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .mobile-only {
+    display: none;
+  }
+  @media (max-width: 900px) {
+    .desktop-nav { display: none; }
+    .mobile-only { display: block; }
+  }
+
+  .nav-link {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-ink);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: color 150ms ease, background 150ms ease;
+  }
+  .nav-link:hover {
+    color: var(--color-plum);
+    background: var(--color-sand);
+  }
+  .nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-family: var(--font-body);
+  }
+
+  .nav-dropdown {
+    position: relative;
+  }
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    min-width: 220px;
+    background: var(--color-cream);
+    border: 1px solid var(--color-line);
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(43,36,32,0.1);
+    padding: 0.5rem 0;
+    z-index: 100;
+  }
+  .nav-dropdown:hover .dropdown-menu,
+  .nav-dropdown:focus-within .dropdown-menu {
+    display: block;
+  }
+  .dropdown-item {
+    display: block;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    color: var(--color-ink);
+    transition: background 150ms ease, color 150ms ease;
+    cursor: pointer;
+  }
+  .dropdown-item:hover {
+    background: var(--color-sand);
+    color: var(--color-plum);
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const drawer = document.getElementById('mobile-drawer');
+  const closeBtn = document.getElementById('mobile-close-btn');
+  const backdrop = document.getElementById('drawer-backdrop');
+
+  function openDrawer() {
+    drawer!.style.display = 'block';
+    drawer!.setAttribute('aria-hidden', 'false');
+    btn!.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    drawer!.style.display = 'none';
+    drawer!.setAttribute('aria-hidden', 'true');
+    btn!.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  btn?.addEventListener('click', openDrawer);
+  closeBtn?.addEventListener('click', closeDrawer);
+  backdrop?.addEventListener('click', closeDrawer);
+
+  // Shadow on scroll
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 10) {
+      header!.style.boxShadow = '0 2px 12px rgba(43,36,32,0.08)';
+    } else {
+      header!.style.boxShadow = 'none';
+    }
+  });
+</script>

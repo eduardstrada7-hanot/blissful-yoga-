@@ -1,0 +1,149 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+function readTime(body: string) {
+  return Math.max(1, Math.round(body.split(/\s+/).length / 200));
+}
+
+const articleLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": post.data.title,
+  "description": post.data.description,
+  "datePublished": post.data.pubDate.toISOString(),
+  "dateModified": (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+  "author": { "@type": "Person", "name": post.data.author },
+  "publisher": { "@type": "Organization", "name": "Blissful Butterfly Yoga", "url": "https://blissfulbutterflyyoga.com" },
+  ...(post.data.coverImage ? { "image": `https://blissfulbutterflyyoga.com${post.data.coverImage}` } : {}),
+};
+---
+
+<Base
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.coverImage}
+  type="article"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
+
+  <article>
+    <!-- Hero -->
+    <header style="padding:64px 0 48px;background:var(--color-sand);">
+      <div class="container" style="max-width:680px;">
+        <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.8rem;color:var(--color-ink);opacity:0.55;margin-bottom:1rem;" class="fade-in">
+          <a href="/blog" style="color:var(--color-rose);font-weight:600;text-decoration:underline;">← Blog</a>
+          <span>·</span>
+          <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+          <span>·</span>
+          <span>{readTime(post.body ?? '')} min read</span>
+        </div>
+        <h1 style="font-size:clamp(2rem,5vw,3rem);margin-bottom:1rem;line-height:1.15;" class="fade-in">{post.data.title}</h1>
+        <p style="font-size:1.05rem;color:var(--color-ink);opacity:0.75;line-height:1.6;" class="fade-in">{post.data.description}</p>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-top:1.25rem;font-size:0.875rem;font-weight:600;color:var(--color-plum);" class="fade-in">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style="border-radius:50%;overflow:hidden;" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="var(--color-plum)" opacity="0.15"/><path d="M16 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 10c-4.42 0-8 1.79-8 4v2h16v-2c0-2.21-3.58-4-8-4z" fill="var(--color-plum)"/></svg>
+          {post.data.author}
+        </div>
+      </div>
+    </header>
+
+    {post.data.coverImage && (
+      <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
+        <div style="border-radius:8px;overflow:hidden;aspect-ratio:16/7;margin-bottom:0;">
+          <img
+            src={post.data.coverImage}
+            alt={post.data.coverAlt ?? post.data.title}
+            width="900"
+            height="394"
+            loading="eager"
+            decoding="async"
+            style="width:100%;height:100%;object-fit:cover;"
+          />
+        </div>
+      </div>
+    )}
+
+    <!-- Body -->
+    <div class="container prose-content" style="max-width:680px;padding-top:3rem;padding-bottom:5rem;">
+      <Content />
+    </div>
+
+    <!-- Subscribe CTA -->
+    <div style="border-top:1px solid var(--color-line);padding:3rem 1.5rem;background:var(--color-sand);text-align:center;">
+      <div style="max-width:560px;margin:0 auto;">
+        <p style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--color-plum);margin-bottom:0.5rem;">Enjoyed this?</p>
+        <p style="font-size:0.95rem;color:var(--color-ink);opacity:0.7;margin-bottom:1.25rem;">Get the free Root Chakra Mini-Course and new essays delivered to your inbox.</p>
+        <a href="/free" class="btn-primary">Get the mini-course →</a>
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .prose-content :global(p) {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    color: var(--color-ink);
+    margin-bottom: 1.25rem;
+  }
+  .prose-content :global(h2) {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin: 2rem 0 0.75rem;
+  }
+  .prose-content :global(h3) {
+    font-size: 1.25rem;
+    margin: 1.5rem 0 0.5rem;
+  }
+  .prose-content :global(ul), .prose-content :global(ol) {
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .prose-content :global(li) {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-ink);
+  }
+  .prose-content :global(blockquote) {
+    border-left: 3px solid var(--color-plum);
+    padding: 0.75rem 1.25rem;
+    margin: 1.5rem 0;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--color-plum);
+    background: var(--color-sand);
+    border-radius: 0 4px 4px 0;
+  }
+  .prose-content :global(em) {
+    font-style: italic;
+    color: var(--color-plum);
+  }
+  .prose-content :global(strong) {
+    font-weight: 700;
+    color: var(--color-plum);
+  }
+  .prose-content :global(a) {
+    color: var(--color-rose);
+    text-decoration: underline;
+  }
+  .prose-content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--color-line);
+    margin: 2.5rem 0;
+  }
+</style>
