@@ -1,0 +1,32 @@
+---
+export const prerender = false;
+import AdminLayout from '../../../../layouts/AdminLayout.astro';
+import BlogEditor from '../../../../components/admin/BlogEditor';
+import { createAdminClient } from '../../../../lib/supabase/admin';
+
+const { id } = Astro.params;
+const db = createAdminClient();
+const { data: post } = await db.from('blog_posts').select('*').eq('id', id!).single();
+
+if (!post) return Astro.redirect('/admin/blog');
+---
+
+<AdminLayout title={`Edit: ${post.title}`} active="blog">
+  <div style="margin-bottom:1rem;">
+    <a href="/admin/blog" style="font-size:0.875rem;font-weight:600;color:var(--color-plum);">← Back to posts</a>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <BlogEditor
+        client:load
+        postId={post.id}
+        slug={post.slug}
+        title={post.title}
+        excerpt={post.excerpt ?? ''}
+        coverImageUrl={post.cover_image_url ?? ''}
+        initialContent={post.content}
+        status={post.status}
+      />
+    </div>
+  </div>
+</AdminLayout>

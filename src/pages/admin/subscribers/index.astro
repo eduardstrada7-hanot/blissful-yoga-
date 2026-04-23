@@ -1,0 +1,158 @@
+---
+export const prerender = false;
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { createAdminClient } from '../../../lib/supabase/admin';
+
+const db = createAdminClient();
+
+// Handle form actions
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData();
+  const action = form.get('action')?.toString();
+
+  if (action === 'add') {
+    const email = form.get('email')?.toString().trim() ?? '';
+    const name  = form.get('name')?.toString().trim() ?? '';
+    if (email) {
+      await db.from('subscribers').upsert({ email, name: name || null, source: 'manual' }, { onConflict: 'email' });
+    }
+  } else if (action === 'unsubscribe') {
+    const id = form.get('id')?.toString();
+    if (id) await db.from('subscribers').update({ status: 'unsubscribed', unsubscribed_at: new Date().toISOString() }).eq('id', id);
+  } else if (action === 'delete') {
+    const id = form.get('id')?.toString();
+    if (id) await db.from('subscribers').delete().eq('id', id);
+  } else if (action === 'bulk_delete') {
+    const ids = form.getAll('ids[]').map(String);
+    if (ids.length) await db.from('subscribers').delete().in('id', ids);
+  }
+  return Astro.redirect('/admin/subscribers');
+}
+
+const filterStatus = Astro.url.searchParams.get('status') ?? 'all';
+const filterSource = Astro.url.searchParams.get('source') ?? '';
+const search       = Astro.url.searchParams.get('q') ?? '';
+
+let query = db.from('subscribers').select('*').order('created_at', { ascending: false });
+if (filterStatus !== 'all') query = query.eq('status', filterStatus);
+if (filterSource) query = query.eq('source', filterSource);
+if (search) query = query.or(`email.ilike.%${search}%,name.ilike.%${search}%`);
+
+const { data: subscribers = [] } = await query;
+const { data: sources } = await db.from('subscribers').select('source').neq('source', null);
+const uniqueSources = [...new Set((sources ?? []).map((r: any) => r.source).filter(Boolean))];
+
+function fmtDate(d: string) {
+  return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+---
+
+<AdminLayout title="Subscribers" active="subscribers">
+  <div class="section-head">
+    <h2>All Subscribers ({subscribers.length})</h2>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+      <button onclick="document.getElementById('add-modal').style.display='flex'" class="btn btn-plum btn-sm">+ Add subscriber</button>
+      <a href="/api/admin/subscribers/export" class="btn btn-outline btn-sm">Export CSV</a>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <form method="get" style="display:flex;gap:0.75rem;margin-bottom:1.5rem;flex-wrap:wrap;align-items:flex-end;">
+    <div class="field" style="flex:1;min-width:160px;">
+      <label class="label" for="q">Search</label>
+      <input class="input" id="q" name="q" placeholder="Email or name…" value={search} />
+    </div>
+    <div class="field">
+      <label class="label" for="status">Status</label>
+      <select class="input" id="status" name="status" style="min-width:130px;">
+        <option value="all" selected={filterStatus==='all'}>All statuses</option>
+        <option value="active" selected={filterStatus==='active'}>Active</option>
+        <option value="unsubscribed" selected={filterStatus==='unsubscribed'}>Unsubscribed</option>
+        <option value="bounced" selected={filterStatus==='bounced'}>Bounced</option>
+      </select>
+    </div>
+    {uniqueSources.length > 0 && (
+      <div class="field">
+        <label class="label" for="source">Source</label>
+        <select class="input" id="source" name="source" style="min-width:130px;">
+          <option value="">All sources</option>
+          {uniqueSources.map((s) => <option value={s} selected={filterSource===s}>{s}</option>)}
+        </select>
+      </div>
+    )}
+    <button type="submit" class="btn btn-outline btn-sm" style="align-self:flex-end;">Filter</button>
+    {(search || filterStatus !== 'all' || filterSource) && <a href="/admin/subscribers" class="btn btn-ghost btn-sm" style="align-self:flex-end;">Clear</a>}
+  </form>
+
+  <!-- Table -->
+  <div class="card" style="overflow-x:auto;">
+    {subscribers.length === 0 ? (
+      <div class="empty-state">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <p>No subscribers found.</p>
+      </div>
+    ) : (
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Source</th>
+            <th>Status</th>
+            <th>Joined</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {subscribers.map((s: any) => (
+            <tr>
+              <td style="font-weight:500;">{s.email}</td>
+              <td style="opacity:0.7;">{s.name || '—'}</td>
+              <td><span style="font-size:0.75rem;opacity:0.55;">{s.source || '—'}</span></td>
+              <td><span class={`badge badge-${s.status}`}>{s.status}</span></td>
+              <td style="opacity:0.6;white-space:nowrap;">{fmtDate(s.created_at)}</td>
+              <td>
+                <div style="display:flex;gap:0.5rem;">
+                  {s.status === 'active' && (
+                    <form method="post">
+                      <input type="hidden" name="action" value="unsubscribe" />
+                      <input type="hidden" name="id" value={s.id} />
+                      <button type="submit" class="btn btn-ghost btn-sm">Unsub</button>
+                    </form>
+                  )}
+                  <form method="post" onsubmit="return confirm('Delete this subscriber?')">
+                    <input type="hidden" name="action" value="delete" />
+                    <input type="hidden" name="id" value={s.id} />
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+</AdminLayout>
+
+<!-- Add subscriber modal -->
+<div id="add-modal" style="display:none;position:fixed;inset:0;z-index:100;align-items:center;justify-content:center;background:rgba(43,36,32,0.5);">
+  <div style="background:#fff;border-radius:6px;padding:2rem;width:100%;max-width:420px;margin:1rem;">
+    <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:1.25rem;">Add subscriber manually</h3>
+    <form method="post" style="display:flex;flex-direction:column;gap:1rem;">
+      <input type="hidden" name="action" value="add" />
+      <div class="field">
+        <label class="label" for="add-email">Email *</label>
+        <input class="input" type="email" id="add-email" name="email" required />
+      </div>
+      <div class="field">
+        <label class="label" for="add-name">Name (optional)</label>
+        <input class="input" type="text" id="add-name" name="name" />
+      </div>
+      <div style="display:flex;gap:0.75rem;justify-content:flex-end;">
+        <button type="button" class="btn btn-ghost" onclick="document.getElementById('add-modal').style.display='none'">Cancel</button>
+        <button type="submit" class="btn btn-plum">Add subscriber</button>
+      </div>
+    </form>
+  </div>
+</div>

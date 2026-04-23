@@ -41,17 +41,30 @@ const { bg = 'var(--color-sand)' } = Astro.props;
   const errorEl = document.getElementById('signup-error') as HTMLElement;
   const successEl = document.getElementById('signup-success') as HTMLElement;
 
-  form?.addEventListener('submit', (e) => {
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = (form.querySelector('#signup-email') as HTMLInputElement).value;
+    const email = (form.querySelector('#signup-email') as HTMLInputElement).value.trim();
     if (!email || !email.includes('@')) {
       errorEl.style.display = 'block';
       errorEl.textContent = 'Please enter a valid email address.';
       return;
     }
     errorEl.style.display = 'none';
-    // Wire up to ConvertKit/Mailchimp here
-    successEl.style.display = 'block';
-    (form.querySelector('#signup-email') as HTMLInputElement).value = '';
+    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    btn.disabled = true;
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: 'mini-course' }),
+      });
+      if (!res.ok) throw new Error();
+      successEl.style.display = 'block';
+      (form.querySelector('#signup-email') as HTMLInputElement).value = '';
+    } catch {
+      errorEl.style.display = 'block';
+      errorEl.textContent = 'Something went wrong. Please try again.';
+      btn.disabled = false;
+    }
   });
 </script>

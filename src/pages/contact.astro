@@ -100,10 +100,10 @@ import { site } from '../data/site';
     const errorEl = document.getElementById('contact-error') as HTMLElement;
     const successEl = document.getElementById('contact-success') as HTMLElement;
 
-    form?.addEventListener('submit', (e) => {
+    form?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const name = (form.querySelector('#contact-name') as HTMLInputElement).value.trim();
-      const email = (form.querySelector('#contact-email') as HTMLInputElement).value.trim();
+      const name    = (form.querySelector('#contact-name') as HTMLInputElement).value.trim();
+      const email   = (form.querySelector('#contact-email') as HTMLInputElement).value.trim();
       const message = (form.querySelector('#contact-message') as HTMLTextAreaElement).value.trim();
 
       if (!name || !email || !message) {
@@ -112,9 +112,24 @@ import { site } from '../data/site';
         return;
       }
       errorEl.style.display = 'none';
-      // Wire to Formspree / Netlify Forms / etc.
-      successEl.style.display = 'block';
-      form.reset();
+
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      try {
+        const res = await fetch('/api/contact', { method: 'POST', body: new FormData(form) });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error ?? 'Failed to send.');
+        successEl.style.display = 'block';
+        form.reset();
+      } catch (err: any) {
+        errorEl.style.display = 'block';
+        errorEl.textContent = err.message ?? 'Something went wrong. Please try emailing directly.';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send message';
+      }
     });
   </script>
 </Base>

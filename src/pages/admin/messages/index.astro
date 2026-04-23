@@ -1,0 +1,120 @@
+---
+export const prerender = false;
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { createAdminClient } from '../../../lib/supabase/admin';
+
+const db = createAdminClient();
+
+// Handle bulk actions
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData();
+  const action = form.get('action')?.toString();
+  const id = form.get('id')?.toString();
+
+  if (action === 'archive' && id) {
+    await db.from('messages').update({ status: 'archived' }).eq('id', id);
+  } else if (action === 'unread' && id) {
+    await db.from('messages').update({ status: 'unread' }).eq('id', id);
+  } else if (action === 'delete' && id) {
+    await db.from('messages').delete().eq('id', id);
+  }
+  return Astro.redirect('/admin/messages');
+}
+
+const filterStatus = Astro.url.searchParams.get('status') ?? 'all';
+
+let query = db.from('messages').select('*').order('created_at', { ascending: false });
+if (filterStatus !== 'all') query = query.eq('status', filterStatus);
+const { data: messages = [] } = await query;
+
+function fmtDate(d: string) {
+  const dt = new Date(d);
+  const today = new Date();
+  if (dt.toDateString() === today.toDateString()) {
+    return dt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  }
+  return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+const tabs = [
+  { id: 'all', label: 'All' },
+  { id: 'unread', label: 'Unread' },
+  { id: 'replied', label: 'Replied' },
+  { id: 'archived', label: 'Archived' },
+];
+---
+
+<AdminLayout title="Messages" active="messages">
+  <!-- Tabs -->
+  <div style="display:flex;gap:0.25rem;margin-bottom:1.5rem;border-bottom:1px solid var(--color-line);padding-bottom:0;">
+    {tabs.map((t) => (
+      <a
+        href={`/admin/messages${t.id === 'all' ? '' : `?status=${t.id}`}`}
+        style={`padding:0.5rem 1rem;font-size:0.875rem;font-weight:600;border-bottom:2px solid ${filterStatus === t.id || (t.id === 'all' && filterStatus === 'all') ? 'var(--color-plum)' : 'transparent'};color:${filterStatus === t.id || (t.id === 'all' && filterStatus === 'all') ? 'var(--color-plum)' : 'var(--color-ink)'};opacity:${filterStatus === t.id || (t.id === 'all' && filterStatus === 'all') ? '1' : '0.5'};margin-bottom:-1px;`}
+      >
+        {t.label}
+      </a>
+    ))}
+  </div>
+
+  <div class="card" style="overflow-x:auto;">
+    {messages.length === 0 ? (
+      <div class="empty-state">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        <p>No messages here.</p>
+      </div>
+    ) : (
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width:12px;"></th>
+            <th>From</th>
+            <th>Subject</th>
+            <th>Source</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {messages.map((m: any) => (
+            <tr style={m.status === 'unread' ? 'background:#fefbf6;' : ''}>
+              <td>
+                {m.status === 'unread' && (
+                  <div style="width:8px;height:8px;border-radius:50%;background:var(--color-rose);" title="Unread"></div>
+                )}
+              </td>
+              <td>
+                <div style="font-weight:600;font-size:0.875rem;">{m.sender_name}</div>
+                <div style="font-size:0.75rem;opacity:0.55;">{m.sender_email}</div>
+              </td>
+              <td>
+                <a href={`/admin/messages/${m.id}`} style="font-weight:500;font-size:0.875rem;color:var(--color-plum);">
+                  {m.subject || '(no subject)'}
+                </a>
+              </td>
+              <td><span style="font-size:0.75rem;opacity:0.5;">{m.source || '—'}</span></td>
+              <td style="font-size:0.8rem;opacity:0.55;white-space:nowrap;">{fmtDate(m.created_at)}</td>
+              <td>
+                <div style="display:flex;gap:0.375rem;">
+                  <a href={`/admin/messages/${m.id}`} class="btn btn-outline btn-sm">Reply</a>
+                  {m.status !== 'archived' && (
+                    <form method="post">
+                      <input type="hidden" name="action" value="archive" />
+                      <input type="hidden" name="id" value={m.id} />
+                      <button class="btn btn-ghost btn-sm">Archive</button>
+                    </form>
+                  )}
+                  <form method="post" onsubmit="return confirm('Delete this message?')">
+                    <input type="hidden" name="action" value="delete" />
+                    <input type="hidden" name="id" value={m.id} />
+                    <button class="btn btn-danger btn-sm">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+</AdminLayout>

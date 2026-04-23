@@ -1,0 +1,22 @@
+---
+export const prerender = false;
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import BlogEditor from '../../../components/admin/BlogEditor';
+---
+
+<AdminLayout title="New Post" active="blog">
+  <div style="margin-bottom:1rem;">
+    <a href="/admin/blog" style="font-size:0.875rem;font-weight:600;color:var(--color-plum);">← Back to posts</a>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <BlogEditor
+        client:load
+        slug=""
+        title=""
+        excerpt=""
+        status="draft"
+      />
+    </div>
+  </div>
+</AdminLayout>

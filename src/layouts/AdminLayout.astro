@@ -1,0 +1,157 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  active?: 'dashboard' | 'subscribers' | 'messages' | 'blog' | 'settings';
+}
+
+const { title, active } = Astro.props;
+
+const nav = [
+  { id: 'dashboard', href: '/admin', label: 'Dashboard', icon: `<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>` },
+  { id: 'subscribers', href: '/admin/subscribers', label: 'Subscribers', icon: `<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>` },
+  { id: 'messages', href: '/admin/messages', label: 'Messages', icon: `<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>` },
+  { id: 'blog', href: '/admin/blog', label: 'Blog', icon: `<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>` },
+  { id: 'settings', href: '/admin/settings', label: 'Settings', icon: `<path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" stroke-width="1.5" fill="none"/>` },
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title} — Admin · Blissful Butterfly Yoga</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 15px; color: var(--color-ink); background: #f9f6f2; }
+    a { color: inherit; text-decoration: none; }
+    .admin-shell { display: flex; min-height: 100vh; }
+    .admin-sidebar {
+      width: 220px; min-height: 100vh; background: var(--color-plum);
+      display: flex; flex-direction: column; padding: 1.5rem 0;
+      position: sticky; top: 0; flex-shrink: 0;
+    }
+    .sidebar-logo { padding: 0 1.25rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.12); margin-bottom: 1rem; }
+    .sidebar-logo span { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: #fff; line-height: 1.25; display: block; }
+    .sidebar-logo small { font-size: 0.7rem; color: rgba(255,255,255,0.5); letter-spacing: 0.08em; text-transform: uppercase; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 0.2rem; padding: 0 0.75rem; flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 0.625rem; padding: 0.6rem 0.75rem;
+      border-radius: 4px; font-size: 0.875rem; font-weight: 500; color: rgba(255,255,255,0.7);
+      transition: background 150ms ease, color 150ms ease;
+    }
+    .sidebar-link:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .sidebar-link.active { background: rgba(255,255,255,0.15); color: #fff; }
+    .sidebar-link svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .sidebar-bottom { padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.12); margin-top: auto; }
+    .admin-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .admin-topbar {
+      background: #fff; border-bottom: 1px solid var(--color-line); padding: 0 2rem;
+      height: 56px; display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .admin-topbar h1 { font-size: 1.05rem; font-weight: 700; color: var(--color-ink); }
+    .admin-content { padding: 2rem; max-width: 1100px; width: 100%; }
+    /* Cards */
+    .card { background: #fff; border: 1px solid var(--color-line); border-radius: 6px; }
+    .card-body { padding: 1.5rem; }
+    /* Stat cards */
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .stat-card { background: #fff; border: 1px solid var(--color-line); border-radius: 6px; padding: 1.25rem 1.5rem; }
+    .stat-value { font-size: 2rem; font-weight: 700; color: var(--color-plum); line-height: 1; margin-bottom: 0.25rem; }
+    .stat-label { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-ink); opacity: 0.5; }
+    /* Table */
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    .data-table th { text-align: left; padding: 0.625rem 1rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-ink); opacity: 0.5; border-bottom: 1px solid var(--color-line); white-space: nowrap; }
+    .data-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--color-line); vertical-align: middle; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: #faf8f5; }
+    /* Badges */
+    .badge { display: inline-flex; align-items: center; padding: 0.15rem 0.5rem; border-radius: 99px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+    .badge-unread { background: #fef3c7; color: #92400e; }
+    .badge-read { background: #f3f4f6; color: #6b7280; }
+    .badge-replied { background: #d1fae5; color: #065f46; }
+    .badge-archived { background: #f3f4f6; color: #9ca3af; }
+    .badge-active { background: #d1fae5; color: #065f46; }
+    .badge-draft { background: #fef3c7; color: #92400e; }
+    .badge-published { background: #d1fae5; color: #065f46; }
+    .badge-unsubscribed { background: #fee2e2; color: #991b1b; }
+    /* Buttons */
+    .btn { display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.875rem; font-weight: 600; cursor: pointer; border: none; font-family: inherit; transition: background 150ms ease; white-space: nowrap; }
+    .btn-sm { padding: 0.3rem 0.625rem; font-size: 0.8rem; }
+    .btn-plum { background: var(--color-plum); color: #fff; }
+    .btn-plum:hover { background: #4a2e4a; }
+    .btn-outline { background: transparent; color: var(--color-plum); border: 1px solid var(--color-plum); }
+    .btn-outline:hover { background: var(--color-sand); }
+    .btn-ghost { background: transparent; color: var(--color-ink); opacity: 0.6; }
+    .btn-ghost:hover { opacity: 1; background: var(--color-sand); }
+    .btn-danger { background: #fee2e2; color: #991b1b; }
+    .btn-danger:hover { background: #fecaca; }
+    /* Form inputs */
+    .field { display: flex; flex-direction: column; gap: 0.375rem; }
+    .label { font-size: 0.8rem; font-weight: 600; color: var(--color-ink); opacity: 0.7; }
+    .input { padding: 0.625rem 0.875rem; border: 1px solid var(--color-line); border-radius: 4px; font-size: 0.9rem; font-family: inherit; background: #fff; color: var(--color-ink); width: 100%; }
+    .input:focus { outline: 2px solid var(--color-plum); outline-offset: -1px; }
+    textarea.input { resize: vertical; min-height: 100px; }
+    select.input { cursor: pointer; }
+    /* Section header */
+    .section-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
+    .section-head h2 { font-size: 1.1rem; font-weight: 700; }
+    /* Empty state */
+    .empty-state { text-align: center; padding: 4rem 2rem; color: var(--color-ink); opacity: 0.45; }
+    .empty-state p { font-size: 0.9rem; margin-top: 0.5rem; }
+    /* Mobile sidebar */
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-content { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-shell">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo">
+        <span>Blissful Butterfly Yoga</span>
+        <small>Admin</small>
+      </div>
+      <nav class="sidebar-nav" aria-label="Admin navigation">
+        {nav.map((item) => (
+          <a
+            href={item.href}
+            class={`sidebar-link${active === item.id ? ' active' : ''}`}
+            aria-current={active === item.id ? 'page' : undefined}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" set:html={item.icon} />
+            {item.label}
+          </a>
+        ))}
+      </nav>
+      <div class="sidebar-bottom">
+        <form method="post" action="/api/admin/logout">
+          <button type="submit" style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:rgba(255,255,255,0.5);background:none;border:none;cursor:pointer;font-family:inherit;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Log out
+          </button>
+        </form>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <div class="admin-main">
+      <div class="admin-topbar">
+        <h1>{title}</h1>
+        <slot name="topbar-actions" />
+      </div>
+      <div class="admin-content">
+        <slot />
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+---
+export const prerender = false;
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { createServerSupabase } from '../../lib/supabase/server';
+
+let pwSuccess = false;
+let pwError = '';
+
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData();
+  const action = form.get('action')?.toString();
+
+  if (action === 'change_password') {
+    const newPassword = form.get('new_password')?.toString() ?? '';
+    const confirm    = form.get('confirm_password')?.toString() ?? '';
+    if (newPassword !== confirm) {
+      pwError = 'Passwords do not match.';
+    } else if (newPassword.length < 8) {
+      pwError = 'Password must be at least 8 characters.';
+    } else {
+      const supabase = createServerSupabase(Astro.request, Astro.cookies);
+      const { error } = await supabase.auth.updateUser({ password: newPassword });
+      if (error) pwError = error.message;
+      else pwSuccess = true;
+    }
+  }
+}
+
+const resendKey = import.meta.env.RESEND_API_KEY ?? '';
+const adminEmails = import.meta.env.ADMIN_EMAILS ?? '';
+---
+
+<AdminLayout title="Settings" active="settings">
+  <div style="display:flex;flex-direction:column;gap:2rem;max-width:640px;">
+
+    <!-- Change password -->
+    <div class="card">
+      <div class="card-body" style="border-bottom:1px solid var(--color-line);">
+        <h2 style="font-size:0.95rem;font-weight:700;">Change password</h2>
+      </div>
+      <div class="card-body">
+        {pwSuccess && (
+          <div style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:4px;padding:0.75rem 1rem;font-size:0.875rem;color:#065f46;margin-bottom:1rem;">
+            Password updated successfully.
+          </div>
+        )}
+        {pwError && (
+          <div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:4px;padding:0.75rem 1rem;font-size:0.875rem;color:#991b1b;margin-bottom:1rem;">
+            {pwError}
+          </div>
+        )}
+        <form method="post" style="display:flex;flex-direction:column;gap:1rem;">
+          <input type="hidden" name="action" value="change_password" />
+          <div class="field">
+            <label class="label" for="new_password">New password</label>
+            <input type="password" id="new_password" name="new_password" class="input" autocomplete="new-password" minlength="8" required />
+          </div>
+          <div class="field">
+            <label class="label" for="confirm_password">Confirm new password</label>
+            <input type="password" id="confirm_password" name="confirm_password" class="input" autocomplete="new-password" required />
+          </div>
+          <div>
+            <button type="submit" class="btn btn-plum">Update password</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Env info (read-only) -->
+    <div class="card">
+      <div class="card-body" style="border-bottom:1px solid var(--color-line);">
+        <h2 style="font-size:0.95rem;font-weight:700;">Environment status</h2>
+      </div>
+      <div class="card-body" style="display:flex;flex-direction:column;gap:0.75rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.875rem;">
+          <span>Resend API key</span>
+          {resendKey ? (
+            <span class="badge badge-active">Configured</span>
+          ) : (
+            <span class="badge badge-unread">Missing — set RESEND_API_KEY</span>
+          )}
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.875rem;">
+          <span>Admin emails</span>
+          <code style="font-size:0.8rem;background:#f3f4f6;padding:0.15rem 0.4rem;border-radius:3px;">{adminEmails || '(not set)'}</code>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.875rem;">
+          <span>Supabase</span>
+          {import.meta.env.PUBLIC_SUPABASE_URL ? (
+            <span class="badge badge-active">Configured</span>
+          ) : (
+            <span class="badge badge-unread">Missing — set PUBLIC_SUPABASE_URL</span>
+          )}
+        </div>
+      </div>
+    </div>
+
+    <!-- Links -->
+    <div class="card">
+      <div class="card-body" style="border-bottom:1px solid var(--color-line);">
+        <h2 style="font-size:0.95rem;font-weight:700;">External services</h2>
+      </div>
+      <div class="card-body" style="display:flex;flex-direction:column;gap:0.5rem;font-size:0.875rem;">
+        <a href="https://app.supabase.com" target="_blank" rel="noopener" style="color:var(--color-plum);text-decoration:underline;">Supabase Dashboard ↗</a>
+        <a href="https://app.resend.com" target="_blank" rel="noopener" style="color:var(--color-plum);text-decoration:underline;">Resend Dashboard ↗</a>
+      </div>
+    </div>
+
+  </div>
+</AdminLayout>

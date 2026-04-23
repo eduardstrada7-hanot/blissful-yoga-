@@ -39,6 +39,7 @@ export const site = {
       children: [
         { label: "Yoga On Demand", href: "/on-demand" },
         { label: "Free Videos & Mini-Course", href: "/free" },
+        { label: "Blog", href: "/blog" },
         { label: "Testimonials", href: "/testimonials" },
       ],
     },

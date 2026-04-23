@@ -1,0 +1,135 @@
+---
+export const prerender = false;
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { createAdminClient } from '../../../lib/supabase/admin';
+import { sendEmail } from '../../../lib/resend';
+import { getAdminUser } from '../../../lib/auth';
+
+const { id } = Astro.params;
+const db = createAdminClient();
+const user = await getAdminUser(Astro.request, Astro.cookies);
+
+// Mark as read on view
+await db.from('messages').update({ status: 'read' }).eq('id', id!).eq('status', 'unread');
+
+let sendError = '';
+let sendSuccess = false;
+
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData();
+  const action = form.get('action')?.toString();
+
+  if (action === 'reply') {
+    const body = form.get('body')?.toString().trim() ?? '';
+    if (body && user) {
+      const { data: msg } = await db.from('messages').select('sender_email,sender_name').eq('id', id!).single();
+      if (msg) {
+        const { error } = await sendEmail({
+          to: msg.sender_email,
+          subject: `Re: Message to Blissful Butterfly Yoga`,
+          html: `<p>${body.replace(/\n/g, '<br/>')}</p><br/><p>— Veronica Carpenter<br/>Blissful Butterfly Yoga</p>`,
+          replyTo: 'veronica@blissfulbutterflyyoga.com',
+        });
+        if (error) {
+          sendError = 'Failed to send. Check your Resend API key.';
+        } else {
+          await db.from('message_replies').insert({ message_id: id, body, sent_by: user.id });
+          await db.from('messages').update({ status: 'replied' }).eq('id', id!);
+          sendSuccess = true;
+        }
+      }
+    }
+  } else if (action === 'archive') {
+    await db.from('messages').update({ status: 'archived' }).eq('id', id!);
+    return Astro.redirect('/admin/messages');
+  } else if (action === 'delete') {
+    await db.from('messages').delete().eq('id', id!);
+    return Astro.redirect('/admin/messages');
+  }
+}
+
+const { data: message } = await db.from('messages').select('*').eq('id', id!).single();
+const { data: replies = [] } = await db.from('message_replies').select('*').eq('message_id', id!).order('sent_at', { ascending: true });
+
+if (!message) {
+  return Astro.redirect('/admin/messages');
+}
+
+function fmtFull(d: string) {
+  return new Date(d).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+}
+---
+
+<AdminLayout title={`Message from ${message.sender_name}`} active="messages">
+  <div style="margin-bottom:1rem;">
+    <a href="/admin/messages" style="font-size:0.875rem;font-weight:600;color:var(--color-plum);">← Back to messages</a>
+  </div>
+
+  <!-- Message header -->
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="card-body" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;border-bottom:1px solid var(--color-line);">
+      <div>
+        <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:0.25rem;">{message.subject || '(no subject)'}</h2>
+        <p style="font-size:0.875rem;opacity:0.6;">
+          From <strong>{message.sender_name}</strong> &lt;{message.sender_email}&gt; · {fmtFull(message.created_at)}
+        </p>
+        <span class={`badge badge-${message.status}`} style="margin-top:0.5rem;">{message.status}</span>
+      </div>
+      <div style="display:flex;gap:0.5rem;align-items:flex-start;">
+        <a href={`mailto:${message.sender_email}`} class="btn btn-outline btn-sm">Email directly</a>
+        <form method="post" style="display:inline;">
+          <input type="hidden" name="action" value="archive" />
+          <button class="btn btn-ghost btn-sm">Archive</button>
+        </form>
+        <form method="post" onsubmit="return confirm('Delete this message?')" style="display:inline;">
+          <input type="hidden" name="action" value="delete" />
+          <button class="btn btn-danger btn-sm">Delete</button>
+        </form>
+      </div>
+    </div>
+    <div class="card-body" style="white-space:pre-wrap;font-size:0.95rem;line-height:1.7;color:var(--color-ink);">
+      {message.body}
+    </div>
+  </div>
+
+  <!-- Thread replies -->
+  {replies.map((r: any) => (
+    <div class="card" style="margin-bottom:1rem;border-left:3px solid var(--color-plum);">
+      <div class="card-body">
+        <p style="font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-plum);margin-bottom:0.5rem;">
+          You replied · {fmtFull(r.sent_at)}
+        </p>
+        <p style="white-space:pre-wrap;font-size:0.9rem;line-height:1.7;">{r.body}</p>
+      </div>
+    </div>
+  ))}
+
+  <!-- Reply composer -->
+  <div class="card">
+    <div class="card-body" style="border-bottom:1px solid var(--color-line);">
+      <h3 style="font-size:0.95rem;font-weight:700;">Reply to {message.sender_name}</h3>
+    </div>
+    <div class="card-body">
+      {sendError && (
+        <div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:4px;padding:0.75rem 1rem;font-size:0.875rem;color:#991b1b;margin-bottom:1rem;">
+          {sendError}
+        </div>
+      )}
+      {sendSuccess && (
+        <div style="background:#d1fae5;border:1px solid #6ee7b7;border-radius:4px;padding:0.75rem 1rem;font-size:0.875rem;color:#065f46;margin-bottom:1rem;">
+          Reply sent successfully.
+        </div>
+      )}
+      <form method="post" style="display:flex;flex-direction:column;gap:1rem;">
+        <input type="hidden" name="action" value="reply" />
+        <div class="field">
+          <label class="label" for="body">Your reply</label>
+          <textarea class="input" id="body" name="body" rows="6" placeholder={`Hi ${message.sender_name},\n\n`} required></textarea>
+        </div>
+        <div style="display:flex;justify-content:flex-end;">
+          <button type="submit" class="btn btn-plum">Send reply</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</AdminLayout>

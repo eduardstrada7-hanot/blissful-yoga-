@@ -1,0 +1,108 @@
+---
+export const prerender = false;
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { createAdminClient } from '../../lib/supabase/admin';
+
+const db = createAdminClient();
+
+const [messagesRes, subscribersRes, postsRes, recentMsgsRes, recentSubsRes] = await Promise.all([
+  db.from('messages').select('id', { count: 'exact', head: true }).eq('status', 'unread'),
+  db.from('subscribers').select('id', { count: 'exact', head: true }).eq('status', 'active'),
+  db.from('blog_posts').select('id', { count: 'exact', head: true }).eq('status', 'draft'),
+  db.from('messages').select('id,sender_name,sender_email,subject,status,created_at').order('created_at', { ascending: false }).limit(3),
+  db.from('subscribers').select('id,email,name,source,created_at').order('created_at', { ascending: false }).limit(3),
+]);
+
+const unreadCount = messagesRes.count ?? 0;
+const subscriberCount = subscribersRes.count ?? 0;
+const draftCount = postsRes.count ?? 0;
+const recentMessages = recentMsgsRes.data ?? [];
+const recentSubs = recentSubsRes.data ?? [];
+
+function timeAgo(dateStr: string) {
+  const secs = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+  if (secs < 60) return 'just now';
+  if (secs < 3600) return `${Math.floor(secs/60)}m ago`;
+  if (secs < 86400) return `${Math.floor(secs/3600)}h ago`;
+  return `${Math.floor(secs/86400)}d ago`;
+}
+---
+
+<AdminLayout title="Dashboard" active="dashboard">
+  <!-- Stats -->
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-value">{unreadCount}</div>
+      <div class="stat-label">Unread messages</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{subscriberCount}</div>
+      <div class="stat-label">Active subscribers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{draftCount}</div>
+      <div class="stat-label">Draft posts</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start;">
+
+    <!-- Recent messages -->
+    <div class="card">
+      <div class="card-body" style="border-bottom:1px solid var(--color-line);display:flex;align-items:center;justify-content:space-between;">
+        <h2 style="font-size:0.95rem;font-weight:700;">Recent Messages</h2>
+        <a href="/admin/messages" style="font-size:0.8rem;font-weight:600;color:var(--color-plum);">View all →</a>
+      </div>
+      {recentMessages.length === 0 ? (
+        <div class="empty-state"><p>No messages yet.</p></div>
+      ) : (
+        <div>
+          {recentMessages.map((m: any) => (
+            <a href={`/admin/messages/${m.id}`} style="display:block;padding:0.875rem 1.5rem;border-bottom:1px solid var(--color-line);transition:background 150ms;" onmouseover="this.style.background='#faf8f5'" onmouseout="this.style.background=''">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;margin-bottom:0.2rem;">
+                <span style="font-size:0.875rem;font-weight:600;">{m.sender_name}</span>
+                <span style="font-size:0.75rem;opacity:0.4;">{timeAgo(m.created_at)}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.5rem;">
+                {m.status === 'unread' && <span class="badge badge-unread">Unread</span>}
+                <span style="font-size:0.8rem;opacity:0.6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{m.subject || m.sender_email}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <!-- Recent subscribers -->
+    <div class="card">
+      <div class="card-body" style="border-bottom:1px solid var(--color-line);display:flex;align-items:center;justify-content:space-between;">
+        <h2 style="font-size:0.95rem;font-weight:700;">Recent Subscribers</h2>
+        <a href="/admin/subscribers" style="font-size:0.8rem;font-weight:600;color:var(--color-plum);">View all →</a>
+      </div>
+      {recentSubs.length === 0 ? (
+        <div class="empty-state"><p>No subscribers yet.</p></div>
+      ) : (
+        <div>
+          {recentSubs.map((s: any) => (
+            <div style="padding:0.875rem 1.5rem;border-bottom:1px solid var(--color-line);">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;margin-bottom:0.2rem;">
+                <span style="font-size:0.875rem;font-weight:600;">{s.name || s.email}</span>
+                <span style="font-size:0.75rem;opacity:0.4;">{timeAgo(s.created_at)}</span>
+              </div>
+              <span style="font-size:0.8rem;opacity:0.6;">{s.name ? s.email : ''}</span>
+              {s.source && <span style="font-size:0.72rem;opacity:0.45;margin-left:0.5rem;">via {s.source}</span>}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+
+  </div>
+
+  <!-- Quick links -->
+  <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+    <a href="/admin/blog/new" class="btn btn-plum">+ New blog post</a>
+    <a href="/admin/messages" class="btn btn-outline">View messages</a>
+    <a href="/admin/subscribers" class="btn btn-outline">Manage subscribers</a>
+  </div>
+</AdminLayout>

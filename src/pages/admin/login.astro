@@ -1,0 +1,91 @@
+---
+export const prerender = false;
+import '../../styles/global.css';
+import { createServerSupabase } from '../../lib/supabase/server';
+import { isAdminEmail } from '../../lib/auth';
+
+// Already logged in?
+const supabase = createServerSupabase(Astro.request, Astro.cookies);
+const { data: { user } } = await supabase.auth.getUser();
+if (user && isAdminEmail(user.email ?? '')) {
+  return Astro.redirect('/admin');
+}
+
+let error = '';
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData();
+  const email    = form.get('email')?.toString() ?? '';
+  const password = form.get('password')?.toString() ?? '';
+
+  if (!isAdminEmail(email)) {
+    error = 'Access denied.';
+  } else {
+    const { error: authErr } = await supabase.auth.signInWithPassword({ email, password });
+    if (authErr) {
+      error = 'Incorrect email or password.';
+    } else {
+      return Astro.redirect('/admin');
+    }
+  }
+}
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Login — Blissful Butterfly Yoga</title>
+  <meta name="robots" content="noindex, nofollow" />
+</head>
+<body style="margin:0;font-family:'Inter Tight',sans-serif;background:var(--color-sand,#E8DFD0);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;">
+  <div style="background:#fff;border:1px solid var(--color-line,#D9CDB8);border-radius:6px;padding:2.5rem;width:100%;max-width:380px;">
+    <div style="text-align:center;margin-bottom:2rem;">
+      <svg width="40" height="40" viewBox="0 0 32 32" fill="none" aria-hidden="true" style="margin:0 auto 0.75rem;">
+        <ellipse cx="10" cy="14" rx="8" ry="5" fill="#5B3A5B" opacity="0.85" transform="rotate(-20 10 14)"/>
+        <ellipse cx="22" cy="14" rx="8" ry="5" fill="#5B3A5B" opacity="0.85" transform="rotate(20 22 14)"/>
+        <ellipse cx="9" cy="20" rx="6" ry="4" fill="#C08478" opacity="0.7" transform="rotate(-30 9 20)"/>
+        <ellipse cx="23" cy="20" rx="6" ry="4" fill="#C08478" opacity="0.7" transform="rotate(30 23 20)"/>
+        <line x1="16" y1="8" x2="16" y2="26" stroke="#2B2420" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="14" y1="9" x2="12" y2="7" stroke="#2B2420" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="18" y1="9" x2="20" y2="7" stroke="#2B2420" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <h1 style="font-size:1.25rem;font-weight:700;color:#2B2420;margin:0 0 0.25rem;">Admin Login</h1>
+      <p style="font-size:0.8rem;color:#2B2420;opacity:0.5;margin:0;">Blissful Butterfly Yoga</p>
+    </div>
+
+    {error && (
+      <div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:4px;padding:0.75rem 1rem;font-size:0.875rem;color:#991b1b;margin-bottom:1.25rem;">
+        {error}
+      </div>
+    )}
+
+    <form method="post" style="display:flex;flex-direction:column;gap:1rem;">
+      <div>
+        <label for="email" style="display:block;font-size:0.8rem;font-weight:600;color:#2B2420;opacity:0.7;margin-bottom:0.375rem;">Email</label>
+        <input
+          type="email" id="email" name="email" required autocomplete="email"
+          style="width:100%;padding:0.625rem 0.875rem;border:1px solid #D9CDB8;border-radius:4px;font-size:0.9rem;font-family:inherit;"
+        />
+      </div>
+      <div>
+        <label for="password" style="display:block;font-size:0.8rem;font-weight:600;color:#2B2420;opacity:0.7;margin-bottom:0.375rem;">Password</label>
+        <input
+          type="password" id="password" name="password" required autocomplete="current-password"
+          style="width:100%;padding:0.625rem 0.875rem;border:1px solid #D9CDB8;border-radius:4px;font-size:0.9rem;font-family:inherit;"
+        />
+      </div>
+      <button
+        type="submit"
+        style="width:100%;padding:0.75rem;background:#5B3A5B;color:#fff;border:none;border-radius:4px;font-size:0.9375rem;font-weight:600;cursor:pointer;font-family:inherit;margin-top:0.5rem;"
+      >
+        Log in
+      </button>
+    </form>
+
+    <p style="text-align:center;margin-top:1.25rem;font-size:0.8rem;color:#2B2420;opacity:0.5;">
+      <a href="/admin/reset-password" style="color:#5B3A5B;text-decoration:underline;">Forgot password?</a>
+    </p>
+  </div>
+</body>
+</html>
